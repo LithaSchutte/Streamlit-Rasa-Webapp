@@ -4,7 +4,7 @@ Zika, Marko, 22111084
 
 Sleep Efficiency Prediction
 
-https://mygit.th-deg.de/mzika/sleep-efficiency-prediction.git
+https://mygit.th-deg.de/mzika/global-health-and-development.git
 
 ----  Wiki link ----
 
