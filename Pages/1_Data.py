@@ -46,7 +46,7 @@ if not data.empty:
 
     # Statistics section
     st.markdown("---")
-    st.subheader("📈 Sleep Efficiency Data Statistics")
+    st.subheader("📈 Global Health Data Statistics")
     st.write("### Data Statistics")
     st.write(data.describe())
 
