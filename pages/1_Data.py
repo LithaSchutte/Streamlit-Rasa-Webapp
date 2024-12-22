@@ -3,8 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
-# Cache the data loading function
 @st.cache_data
 def load_data(file_path):
     try:
@@ -19,6 +17,7 @@ def load_data(file_path):
 
 st.set_page_config(layout="wide")
 
+
 st.title("Data Viewer and Insights")
 
 options = ["Original Data", "Normalized Data", "Data with Fake Data"]
@@ -30,6 +29,7 @@ selected_option = st.radio(
 
 st.write(selected_option)
 
+
 file_mapping = {
     "Original Data": "global_health.csv",
     "Normalized Data": "clean_normalized_data.csv",
@@ -38,7 +38,11 @@ file_mapping = {
 
 data_file = file_mapping.get(selected_option)
 
-data = load_data(data_file)
+if selected_option == "Data with Fake Data":
+    data = pd.read_csv(data_file) # do not cache, as fake data can be changed during runtime
+else:
+    data = load_data(data_file)
+
 
 if not data.empty:
     st.write(data)

@@ -3,16 +3,10 @@ import numpy as np
 import random
 import streamlit as st
 
-data_file = "global_health.csv"
-
-@st.cache_data
-def load_data(file_path):
-    """Load the data from a CSV file."""
-    data = pd.read_csv(file_path)
-    return data
+data_file = "global_health.csv"  #  data file path
 
 
-def count_decimal_places(num):
+def count_decimal_places(num):  # helper function
     """Count the number of decimal places in a number."""
     num_str = str(num)
     if '.' in num_str:
@@ -21,17 +15,18 @@ def count_decimal_places(num):
         return 0
 
 def generate_fake_row(df, country_code_pairs, columns_to_randomize):
-    fake_data = {}
+    """Generate randomised, realistic fake row using information from real dataset"""
+    fake_row = {}
 
     country, code = random.choice(country_code_pairs)
 
-    fake_data["Country"] = country
-    fake_data["Country_Code"] = code
-    fake_data["Year"] = int(random.choice(np.arange(2012, 2022)))
+    fake_row["Country"] = country
+    fake_row["Country_Code"] = code
+    fake_row["Year"] = int(random.choice(np.arange(2012, 2022)))
 
     # respective male and female life expectancies need to be calculated before life expectancy, life expectancy is the average
     life_expectancy_female = random.uniform(df["Life_Expectancy_Female"].min(), df["Life_Expectancy_Female"].max())
-    gap = random.uniform(4, 6)
+    gap = random.uniform(4, 6) # assume life expectancy gap between men and women within range 4 to 6 years to ensure realistic fake data
     life_expectancy_male = life_expectancy_female - gap
 
     for column in columns_to_randomize:
@@ -55,24 +50,25 @@ def generate_fake_row(df, country_code_pairs, columns_to_randomize):
         else:
             random_value = random.uniform(min_val, max_val)
 
-        fake_data[column] = float(round(random_value, precision))
+        fake_row[column] = float(round(random_value, precision))
 
-    return fake_data
+    return fake_row
 
 
 def generate_fake_data(original_data: pd.DataFrame, num_new_rows=1000) -> pd.DataFrame:
-    df = load_data(original_data)
+    """Generate n number of fake rows and return as a dataframe"""
 
-    country_code_pairs = [[country, code] for code, country in zip(df["Country_Code"].unique(), df["Country"].unique())]
-    columns_to_randomize = [col for col in df.columns if col not in ["Year", "Country", "Country_Code"]]
+    country_code_pairs = [[country, code] for code, country in zip(original_data["Country_Code"].unique(), original_data["Country"].unique())]
+    columns_to_randomize = [col for col in original_data.columns if col not in ["Year", "Country", "Country_Code"]]
 
-    new_rows = [generate_fake_row(df, country_code_pairs, columns_to_randomize) for _ in range(num_new_rows)]
+    new_rows = [generate_fake_row(original_data, country_code_pairs, columns_to_randomize) for _ in range(num_new_rows)]
     new_data = pd.DataFrame(new_rows)
 
     return new_data
 
 
 def add_fake_data_to_real_data(real_data: pd.DataFrame, fake_data: pd.DataFrame) -> pd.DataFrame:
+    """Join fake data with real/original data"""
     fake_dataset = real_data.copy()
     fake_dataset = pd.concat([fake_dataset, fake_data], ignore_index=True)
     return fake_dataset
