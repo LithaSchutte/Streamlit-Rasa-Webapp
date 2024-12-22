@@ -26,15 +26,14 @@ options = ["Original Data", "Normalized Data", "Data with Fake Data"]
 selected_option = st.radio(
     "Select a dataset to display:",
     options,
-    horizontal=True,
-)
+    horizontal=True)
 
 st.write(selected_option)
 
 file_mapping = {
     "Original Data": "global_health.csv",
     "Normalized Data": "clean_normalized_data.csv",
-    "Data with Fake Data": "fake_data.csv"
+    "Data with Fake Data": "real_data_with_added_fake_data.csv"
 }
 
 data_file = file_mapping.get(selected_option)
@@ -43,17 +42,13 @@ data = load_data(data_file)
 
 if not data.empty:
     st.write(data)
-
-    # Statistics section
     st.markdown("---")
     st.subheader("📈 Global Health Data Statistics")
     st.write("### Data Statistics")
     st.write(data.describe())
-
     st.write("### Additional Insights")
     st.write(f"Total entries: {len(data)}")
     st.write(f"Columns: {', '.join(data.columns)}")
-
     st.markdown("---")
     st.write("### Data Correlation")
 
@@ -72,55 +67,33 @@ if not data.empty:
                 data_without_id = data.drop(columns=['ID'])
             else:
                 data_without_id = data
-
             correlation_matrix = data_without_id.corr()
             st.write(correlation_matrix)
-
-
         elif selected_view == "Graph View":
-
             st.write("Graphical Representation")
-
-            # Drop the ID column if it exists
-
             if 'ID' in data.columns:
-
                 data_without_id = data.drop(columns=['ID'])
-
             else:
-
                 data_without_id = data
 
             correlation_matrix = data_without_id.corr()
 
-            # Create a heatmap using Seaborn
-
-            fig, ax = plt.subplots(figsize=(8, 6))  # Adjust size as needed
+            fig, ax = plt.subplots(figsize=(8, 6))
 
             sns.heatmap(
-
                 correlation_matrix,
-
-                annot=True,  # Display values in each cell
-
-                cmap="coolwarm",  # Color map
-
-                fmt=".2f",  # Format for displaying correlation values
-
-                linewidths=0.5,  # Line width between cells
-
+                annot=True,
+                cmap="coolwarm",
+                fmt=".2f",
+                linewidths=0.5,
                 ax=ax
-
             )
-
             st.pyplot(fig)
-
     else:
         st.warning("Correlation analysis is only available for Normalized Data.")
 
         toggle_state = st.toggle("Switch to Normalized Data View")
         if toggle_state:
             pass
-
 else:
     st.error("The dataset is empty or could not be loaded.")
