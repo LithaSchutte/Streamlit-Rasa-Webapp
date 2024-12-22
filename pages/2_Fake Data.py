@@ -21,7 +21,7 @@ st.set_page_config(layout="wide")
 st.title("Fake Data Generation")
 st.write(
     "Fake data is automatically generated when the application is started for necessary functionalities in other "
-    "parts of the application. However, as a user, syou are welcome to regenerate fake data as often as you wish. "
+    "parts of the application. However, as a user, you are welcome to regenerate fake data as often as you wish. "
     "Fake data will always be randomized. Visit the data page to view the original dataset with the added fake data"
 )
 
