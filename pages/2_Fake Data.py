@@ -42,16 +42,6 @@ if os.path.exists(fake_data_file):
     fake_data = load_data(fake_data_file)
     data_placeholder.dataframe(fake_data.head())
 
-st.markdown(
-    """
-    <style>
-    [data-testid="stHorizontalBlock"] {
-        gap: 0.5rem; /* Adjust horizontal gap between columns */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
 
 col1, col2, col3 = st.columns([1, 1, 1.5], gap="small")
 
