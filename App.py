@@ -5,6 +5,13 @@ from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
 
 data_file = 'global_health.csv'
 
+hide_decoration_bar_style = '''
+    <style>
+        header {visibility: hidden;}
+    </style>
+'''
+st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
+
 @st.cache_data
 def load_data(file_path):
     try:

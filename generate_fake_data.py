@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import random
 import streamlit as st
+import scipy.stats as stats
+
 
 data_file = "global_health.csv"  #  data file path
 
@@ -25,8 +27,12 @@ def generate_fake_row(df, country_code_pairs, columns_to_randomize):
     fake_row["Year"] = int(random.choice(np.arange(2012, 2022)))
 
     # respective male and female life expectancies need to be calculated before life expectancy, life expectancy is the average
-    life_expectancy_female = random.uniform(df["Life_Expectancy_Female"].min(), df["Life_Expectancy_Female"].max())
-    gap = random.uniform(4, 6) # assume life expectancy gap between men and women within range 4 to 6 years to ensure realistic fake data
+    life_expectancy_female = stats.norm.rvs(
+        loc=df["Life_Expectancy_Female"].mean(),
+        scale=df["Life_Expectancy_Female"].std()
+    )
+    gap = random.uniform(4, 6)
+    # assume life expectancy gap between men and women within range 4 to 6 years to ensure realistic fake data
     life_expectancy_male = life_expectancy_female - gap
 
     for column in columns_to_randomize:
@@ -48,7 +54,13 @@ def generate_fake_row(df, country_code_pairs, columns_to_randomize):
         elif column == "Life_Expectancy_Male":
             random_value = life_expectancy_male  # assign previously computed value
         else:
-            random_value = random.uniform(min_val, max_val)
+            if stats.shapiro(df[column])[1] > 0.05:  # Test for normality
+                random_value = stats.norm.rvs(
+                    loc=df[column].mean(),
+                    scale=df[column].std()
+                )
+            else:
+                random_value = random.uniform(df[column].min(), df[column].max())
 
         fake_row[column] = float(round(random_value, precision))
 

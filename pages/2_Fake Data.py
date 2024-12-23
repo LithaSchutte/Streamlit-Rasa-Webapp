@@ -4,6 +4,7 @@ import time
 import os
 from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
 
+
 def load_data(file_path):
     try:
         data = pd.read_csv(file_path)
@@ -41,7 +42,25 @@ if os.path.exists(fake_data_file):
     fake_data = load_data(fake_data_file)
     data_placeholder.dataframe(fake_data.head())
 
-if st.button("Regenerate Fake Data", key="regenerate_fake_data_button"):
+st.markdown(
+    """
+    <style>
+    [data-testid="stHorizontalBlock"] {
+        gap: 0.5rem; /* Adjust horizontal gap between columns */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+col1, col2, col3 = st.columns([1, 1, 1.5], gap="small")
+
+with col1:
+    regenerate_button = st.button("Regenerate Fake Data", key="regenerate_fake_data_button")
+with col2:
+    full_button = st.button("Show Complete Fake Dataset", key="show_complete_data_button")
+
+if regenerate_button:
     progress_text = "Regenerating fake data... Please wait."
     my_bar = progress_placeholder.progress(0, text=progress_text)
 
@@ -63,6 +82,6 @@ if st.button("Regenerate Fake Data", key="regenerate_fake_data_button"):
     combined_data.to_csv('real_data_with_added_fake_data.csv', index=False)
 
 if fake_data is not None:
-    if st.button("Show Complete Fake Dataset", key="show_complete_data_button"):
+    if full_button:
         fake_data = load_data(fake_data_file)
         st.write(fake_data)  # Show the full dataset if requested
