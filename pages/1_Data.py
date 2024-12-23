@@ -27,9 +27,6 @@ selected_option = st.radio(
     options,
     horizontal=True)
 
-st.write(selected_option)
-
-
 file_mapping = {
     "Original Data": "global_health.csv",
     "Normalized Data": "clean_normalized_data.csv",
@@ -43,9 +40,10 @@ if selected_option == "Data with Fake Data":
 else:
     data = load_data(data_file)
 
+data_placeholder = st.empty()
 
 if not data.empty:
-    st.write(data)
+    data_placeholder.dataframe(data)
     st.markdown("---")
     st.subheader("📈 Global Health Data Statistics")
     st.write("### Data Statistics")
@@ -98,6 +96,7 @@ if not data.empty:
 
         toggle_state = st.toggle("Switch to Normalized Data View")
         if toggle_state:
-            pass
+            data_file = "clean_normalized_data.csv"
+            data_placeholder.dataframe(load_data(data_file))
 else:
     st.error("The dataset is empty or could not be loaded.")
