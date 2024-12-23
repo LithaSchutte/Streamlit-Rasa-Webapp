@@ -20,7 +20,7 @@ st.set_page_config(layout="wide")
 
 st.title("Data Viewer and Insights")
 
-options = ["Original Data", "Normalized Data", "Data with Fake Data"]
+options = ["Original Data", "Normalized Data", "Data with Added Synthetic Data"]
 
 selected_option = st.radio(
     "Select a dataset to display:",
@@ -30,12 +30,12 @@ selected_option = st.radio(
 file_mapping = {
     "Original Data": "global_health.csv",
     "Normalized Data": "clean_normalized_data.csv",
-    "Data with Fake Data": "real_data_with_added_fake_data.csv"
+    "Data with Added Synthetic Data": "real_data_with_added_fake_data.csv"
 }
 
 data_file = file_mapping.get(selected_option)
 
-if selected_option == "Data with Fake Data":
+if selected_option == "Data with added Synthetic Data":
     data = pd.read_csv(data_file) # do not cache, as fake data can be changed during runtime
 else:
     data = load_data(data_file)

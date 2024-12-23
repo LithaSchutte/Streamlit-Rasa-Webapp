@@ -5,7 +5,7 @@ from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
 import plotly.express as px
 
 
-st.title("Global Health & Development")
+st.title("🌍 Global Health & Development")
 data_file = 'global_health.csv'
 
 

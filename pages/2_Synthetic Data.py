@@ -19,14 +19,14 @@ def load_data(file_path):
 st.set_page_config(layout="wide")
 
 # Title and Description
-st.title("Fake Data Generation")
+st.title("Synthetic Data Generation")
 st.write(
-    "Fake data is automatically generated when the application is started for necessary functionalities in other "
-    "parts of the application. However, as a user, you are welcome to regenerate fake data as often as you wish. "
-    "Fake data will always be randomized. Visit the data page to view the original dataset with the added fake data"
+    "Synthetic data is automatically generated when the application is started for necessary functionalities in other "
+    "parts of the application. However, as a user, you are welcome to regenerate synthetic data as often as you wish. "
+    "Synthetic data will always be randomized. Visit the data page to view the original dataset with the added synthetic data"
 )
 
-st.write("Sample of the fake data:")
+st.write("Sample of the synthetic data:")
 
 progress_placeholder = st.empty()
 
@@ -46,12 +46,12 @@ if os.path.exists(fake_data_file):
 col1, col2, col3 = st.columns([1, 1, 1.5], gap="small")
 
 with col1:
-    regenerate_button = st.button("Regenerate Fake Data", key="regenerate_fake_data_button")
+    regenerate_button = st.button("Regenerate Synthetic Data", key="regenerate_fake_data_button")
 with col2:
-    full_button = st.button("Show Complete Fake Dataset", key="show_complete_data_button")
+    full_button = st.button("Show Complete Synthetic Dataset", key="show_complete_data_button")
 
 if regenerate_button:
-    progress_text = "Regenerating fake data... Please wait."
+    progress_text = "Regenerating synthetic data... Please wait."
     my_bar = progress_placeholder.progress(0, text=progress_text)
 
     for percent_complete in range(0, 100, 10):
@@ -61,10 +61,10 @@ if regenerate_button:
     fake_data = generate_fake_data(real_data, num_new_rows=1000)
     combined_data = add_fake_data_to_real_data(real_data, fake_data)
 
-    my_bar.progress(100, text="Fake data generation completed.")
+    my_bar.progress(100, text="Synthetic data generation completed.")
     time.sleep(0.5)
     progress_placeholder.empty()
-    st.success("Fake data has been generated successfully!")
+    st.success("Synthetic data has been generated successfully!")
 
     data_placeholder.dataframe(fake_data.head())
 
