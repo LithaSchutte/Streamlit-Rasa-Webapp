@@ -98,5 +98,31 @@ if not data.empty:
         if toggle_state:
             data_file = "clean_normalized_data.csv"
             data_placeholder.dataframe(load_data(data_file))
+
+    st.write("### Data Visualization")
+
+    selected_countries = st.multiselect('Select countries for comparison', data['Country'].unique())
+
+    if selected_countries:
+        filtered_df = data[data['Country'].isin(selected_countries)]
+
+        plt.figure(figsize=(10, 6))
+
+        for country in selected_countries:
+            country_data = filtered_df[filtered_df['Country'] == country]
+            plt.plot(country_data['Year'], country_data['Life_Expectancy'], label=country)
+
+        plt.xlabel('Year')
+        plt.ylabel('Life Expectancy')
+        plt.title('Life Expectancy Comparison Over Years')
+
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+
+        st.pyplot(plt)
+    else:
+        st.write("Please select at least one country for comparison.")
+
 else:
     st.error("The dataset is empty or could not be loaded.")
+
+

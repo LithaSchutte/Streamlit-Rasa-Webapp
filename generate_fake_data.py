@@ -4,7 +4,6 @@ import random
 import streamlit as st
 import scipy.stats as stats
 
-
 data_file = "global_health.csv"  #  data file path
 
 
