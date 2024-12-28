@@ -43,7 +43,7 @@ if os.path.exists(fake_data_file):
     data_placeholder.dataframe(fake_data.head())
 
 
-col1, col2, col3 = st.columns([1, 1, 1.5], gap="small")
+col1, col2, col3 = st.columns([1, 1, 1], gap="small")
 
 with col1:
     regenerate_button = st.button("Regenerate Synthetic Data", key="regenerate_fake_data_button")
