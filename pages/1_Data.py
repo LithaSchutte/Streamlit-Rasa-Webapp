@@ -99,26 +99,79 @@ if not data.empty:
             data_file = "clean_normalized_data.csv"
             data_placeholder.dataframe(load_data(data_file))
 
-    st.write("### Data Visualization")
+    st.write("## Data Visualization")
 
-    selected_countries = st.multiselect('Select countries for comparison', data['Country'].unique())
+    default_countries = ['Germany', 'Italy', 'United States', 'Canada']
+
+    selected_countries = st.multiselect(
+        'Select countries for comparison',
+        options=data['Country'].unique(),
+        default=default_countries
+    )
 
     if selected_countries:
         filtered_df = data[data['Country'].isin(selected_countries)]
 
-        plt.figure(figsize=(10, 6))
+        if selected_option == "Original Data": # don't showcase year graph if not original data, i.e. fake data will add duplicate years
+            st.write("### Life Expectancy Over Years")
+            plt.figure(figsize=(10, 6))
+            for country in selected_countries:
+                country_data = filtered_df[filtered_df['Country'] == country]
+                plt.plot(country_data['Year'], country_data['Life_Expectancy'], label=country)
 
+            plt.xlabel('Year')
+            plt.ylabel('Life Expectancy')
+            plt.title('Life Expectancy Comparison Over Years')
+            plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+            st.pyplot(plt)
+
+        # **Second Plot: Scatter plot with selectable x-axis**
+        st.write("### Life Expectancy vs. Selected Variable")
+        # Selectable x-axis options
+        available_columns = [col for col in data.columns if col not in ['Country', 'Year', 'Life_Expectancy']]
+        selected_x_column = st.selectbox(
+            'Select the X-axis variable for scatter plot',
+            options=available_columns,
+            index=available_columns.index('Fertility_Rate') if 'Fertility_Rate' in available_columns else 0
+        )
+
+        plt.figure(figsize=(10, 6))
         for country in selected_countries:
             country_data = filtered_df[filtered_df['Country'] == country]
-            plt.plot(country_data['Year'], country_data['Life_Expectancy'], label=country)
+            plt.scatter(
+                country_data[selected_x_column],  # X-axis: User-selected column
+                country_data['Life_Expectancy'],  # Y-axis: Life Expectancy
+                label=country
+            )
 
-        plt.xlabel('Year')
+        plt.xlabel(selected_x_column.replace('_', ' '))  # Replace underscores for better readability
         plt.ylabel('Life Expectancy')
-        plt.title('Life Expectancy Comparison Over Years')
+        plt.title(f'Life Expectancy vs. {selected_x_column.replace("_", " ")}')
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+        st.pyplot(plt)
 
+        # **Third Plot: Bar chart for male and female life expectancy**
+        st.write("### Male and Female Life Expectancy Comparison")
+        avg_life_expectancy = filtered_df.groupby('Country')[['Life_Expectancy_Male', 'Life_Expectancy_Female']].mean()
+
+        # Plot bar chart
+        plt.figure(figsize=(10, 6))
+        bar_width = 0.4
+        x = range(len(avg_life_expectancy))
+
+        plt.bar(x, avg_life_expectancy['Life_Expectancy_Male'], width=bar_width, label='Male Life Expectancy',
+                color='blue')
+        plt.bar([p + bar_width for p in x], avg_life_expectancy['Life_Expectancy_Female'], width=bar_width,
+                label='Female Life Expectancy', color='pink')
+
+        plt.xlabel('Country')
+        plt.ylabel('Life Expectancy')
+        plt.title('Comparison of Male and Female Life Expectancy')
+        plt.xticks([p + bar_width / 2 for p in x], avg_life_expectancy.index, rotation=45)
         plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 
         st.pyplot(plt)
+
     else:
         st.write("Please select at least one country for comparison.")
 
