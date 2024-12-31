@@ -85,6 +85,7 @@ def plot_actual_vs_predicted(y_test, y_pred):
     ax.legend()
     return fig
 
+"""
 st.title("Global Health Data Analysis")
 
 filepath = "global_health.csv"
@@ -113,3 +114,4 @@ st.write(f"R^2 Score: {r2:.2f}")
 
 prediction_fig = plot_actual_vs_predicted(y_test, y_pred)
 st.pyplot(prediction_fig)
+"""
