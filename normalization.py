@@ -8,9 +8,11 @@ from sklearn.metrics import mean_squared_error, r2_score
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 # Load data
 def load_data(filepath):
     return pd.read_csv(filepath)
+
 
 def clean_data(df):
     columns_to_drop = [
@@ -32,11 +34,13 @@ def clean_data(df):
 
     return df
 
+
 def normalize_data(df):
     scaler = MinMaxScaler()
     numeric_cols = df.select_dtypes(include=["float64", "int64"]).columns
     df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
     return df
+
 
 def plot_correlation_heatmap(df):
     numeric_df = df.select_dtypes(include=["float64", "int64"])
@@ -52,11 +56,13 @@ def plot_correlation_heatmap(df):
     plt.title("Correlation Heatmap", fontsize=14)
     return fig
 
+
 def plot_boxplot(df, column_name):
     fig, ax = plt.subplots()
     sns.boxplot(x=df[column_name], ax=ax)
     plt.title(f"Boxplot of {column_name}")
     return fig
+
 
 def train_model(df, target_column):
     X = df.drop(columns=[target_column])
@@ -75,17 +81,22 @@ def train_model(df, target_column):
 
     return model, X_test, y_test, y_pred, mse, r2
 
-def plot_actual_vs_predicted(y_test, y_pred):
+
+def plot_actual_vs_predicted(y_test, y_pred, new_prediction=None):
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.scatter(y_test, y_pred, color='blue', alpha=0.6, label="Predicted vs Actual")
     ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2, label="Ideal Fit")
+
+    if new_prediction is not None:
+        ax.scatter(new_prediction[0], new_prediction[1], color='red', s=100, label="User Prediction")
+
     ax.set_xlabel("Actual Life Expectancy")
     ax.set_ylabel("Predicted Life Expectancy")
     ax.set_title("Actual vs Predicted Life Expectancy")
     ax.legend()
     return fig
 
-"""
+
 st.title("Global Health Data Analysis")
 
 filepath = "global_health.csv"
@@ -112,6 +123,26 @@ model, X_test, y_test, y_pred, mse, r2 = train_model(df, target_column)
 st.write(f"Mean Squared Error: {mse:.2f}")
 st.write(f"R^2 Score: {r2:.2f}")
 
-prediction_fig = plot_actual_vs_predicted(y_test, y_pred)
+numeric_cols = df.select_dtypes(include=["float64", "int64"]).columns
+
+user_input = {}
+for col in numeric_cols:
+    user_input[col] = st.slider(f"Select {col}", float(df[col].min()), float(df[col].max()), float(df[col].mean()))
+
+input_df = pd.DataFrame(user_input, index=[0])
+input_df = pd.get_dummies(input_df, drop_first=True)
+
+missing_cols = set(X_test.columns) - set(input_df.columns)
+for col in missing_cols:
+    input_df[col] = 0
+
+input_df = input_df[X_test.columns]
+
+user_prediction = model.predict(input_df)
+st.write(f"Predicted Life Expectancy: {user_prediction[0]:.2f}")
+
+prediction_fig = plot_actual_vs_predicted(
+    y_test, y_pred, new_prediction=(user_input[list(user_input.keys())[0]], user_prediction[0])
+)
 st.pyplot(prediction_fig)
-"""
+
