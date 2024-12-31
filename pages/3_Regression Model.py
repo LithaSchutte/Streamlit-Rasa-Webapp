@@ -26,7 +26,7 @@ with col1:
     Fertility_Rate = st.slider("Fertility Rate", 0.00, 8.00, 2.70)
     Urban_Population_Percent = st.slider("Urban Population Percent", 0.00, 100.00, 58.00)
     Overweight_Rate_Percent = st.slider("Overweight Rate Percent", 0.00, 100.00, 42.00)
-    Sanitary_Expense_Per_Capita = st.slider("Sanitary Expense per Capita", 0.00, 12000.00, 1000.00)
+    Sanitary_Expense_Per_GDP = st.slider("Sanitary Expense per GDP", 0.00, 12000.00, 1000.00)
 
 with col2:
     df = load_data(data_file)
