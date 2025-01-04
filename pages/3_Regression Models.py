@@ -3,8 +3,18 @@ from normalization import (load_data, clean_data, normalize_data, train_model, p
 
 st.title("Regression Model and Feature Selection")
 
+regression_options = ["Linear Regression", "Lasso Regression"]
+
+selected_regression = st.radio(
+    "Select a regression method:",
+    regression_options,
+    horizontal=True)
+
+is_linear_regression = selected_regression == "Linear Regression"
+is_lasso_regression = selected_regression == "Lasso Regression"
 
 col1, col2 = st.columns([1, 2])
+
 
 with col1:
     options = ["Original Data", "Data with Added Synthetic Data"]
