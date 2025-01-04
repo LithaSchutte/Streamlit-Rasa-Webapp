@@ -29,7 +29,7 @@ selected_option = st.radio(
 
 file_mapping = {
     "Original Data": "global_health.csv",
-    "Normalized Data": "clean_normalized_data.csv",
+    "Normalized Data": "clean_data.csv",
     "Data with Added Synthetic Data": "real_data_with_added_fake_data.csv"
 }
 
@@ -37,6 +37,8 @@ data_file = file_mapping.get(selected_option)
 
 if selected_option == "Data with added Synthetic Data":
     data = pd.read_csv(data_file) # do not cache, as fake data can be changed during runtime
+if selected_option == "Normalized Data":
+    data = pd.read_csv(data_file)
 else:
     data = load_data(data_file)
 

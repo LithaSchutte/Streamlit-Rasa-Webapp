@@ -10,8 +10,8 @@ file_path = "global_health.csv"
 df = pd.read_csv(file_path)
 
 to_drop = ["Water_Access_Percent", "Hospital_Beds_Per_1000", "Suicide_Rate_Percent", "Country_Code", "Country",
-           "Year", "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
-           "Life_Expectancy_Male", "Female_Population", "Male_Population", "Total_Population"]
+           "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
+           "Life_Expectancy_Male", "Female_Population", "Male_Population"]
 
 fill_value_option = ["Mean", "KNN", "MICE"]
 
@@ -63,6 +63,8 @@ else:
 
 st.write("Filled missing values")
 st.write(df)
+
+df.to_csv("clean_data.csv", index=False)
 
 df = normalize(df)
 
