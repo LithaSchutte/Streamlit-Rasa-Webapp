@@ -1,7 +1,7 @@
 import streamlit as st
 from normalization import (load_data, clean_data, normalize_data, train_model, plot_actual_vs_predicted)
 
-st.title("Regression Model and Feature Selection")
+st.title("Regression Models")
 
 regression_options = ["Linear Regression", "Lasso Regression"]
 
