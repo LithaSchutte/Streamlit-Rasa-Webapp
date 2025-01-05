@@ -13,25 +13,25 @@ default_features = ["Water_Access_Percent", "Country_Code", "Country", "Life_Exp
 fill_value_option = ["Mean", "KNN", "MICE"]
 
 # Initialize session state for multiselect and radio buttons
-if "selected_countries" not in st.session_state:
-    st.session_state.selected_countries = default_features
+if "selected_features" not in st.session_state:
+    st.session_state.selected_features = default_features
 
 if "selected_algorithm" not in st.session_state:
     st.session_state.selected_algorithm = fill_value_option[0]  # Default to "Mean"
 
 # Multiselect widget with session state
-selected_countries = st.multiselect(
+selected_features = st.multiselect(
     'Select countries for comparison',
     options=df.columns,
-    default=st.session_state.selected_countries
+    default=st.session_state.selected_features
 )
 
 # Update session state when multiselect value changes
-if selected_countries != st.session_state.selected_countries:
-    st.session_state.selected_countries = selected_countries
+if selected_features != st.session_state.selected_features:
+    st.session_state.selected_features = selected_features
 
 # Drop selected columns
-to_drop = st.session_state.selected_countries
+to_drop = st.session_state.selected_features
 df = drop_columns(df, to_drop)
 
 # Title
