@@ -5,6 +5,9 @@ from matplotlib import pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
+file_path_original = "global_health.csv"
+df_original = pd.read_csv(file_path_original)
+
 model_option = ["Clean Data", "Normalized Data"]
 
 selected_model = st.radio("Select dataset:", model_option, horizontal=True)
@@ -31,16 +34,12 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-col1, col2 = st.columns([1, 2])
-
-
-with col1:
-    Fertility_Rate = st.slider("Fertility Rate", 0.00, 8.00, 2.70)
-    Urban_Population_Percent = st.slider("Urban Population Percent", 0.00, 100.00, 58.00)
-    GDP_Per_Capita = st.slider("GDP Per Capita", 100.00, 300000.00, 16000.00)
-    Air_Pollution = st.slider("Air Pollution", 0.00, 120.00, 30.00)
-    Infant_Deaths = st.slider("Infant Deaths", 0.00, 500.00, 100.00)
-    Immunization_Rate = st.slider("Immunization Rate", 0.00, 100.00, 85.00)
+Fertility_Rate = st.slider("Fertility Rate", 0.00, 8.00, 2.70)
+Urban_Population_Percent = st.slider("Urban Population Percent", 0.00, 100.00, 58.00)
+GDP_Per_Capita = st.slider("GDP Per Capita", 100.00, 300000.00, 16000.00)
+Air_Pollution = st.slider("Air Pollution", 0.00, 120.00, 30.00)
+Infant_Deaths = st.slider("Infant Deaths", 0.00, 500.00, 100.00)
+Immunization_Rate = st.slider("Immunization Rate", 0.00, 100.00, 85.00)
 
 
 user_inputs = {"Fertility_Rate": Fertility_Rate,
@@ -66,13 +65,14 @@ X_new = create_input_row(df, user_inputs)
 
 prediction = model.predict(X_new)
 
-with col2:
-    st.write("### Predicted Life Expectancy:")
-    st.write(f"{prediction[0]:.2f} years")
 
+st.write("### Predicted Life Expectancy:")
+st.write(f"{prediction[0]:.2f} years")
+
+for column in X.columns:
     fig, ax = plt.subplots()
-    df.sort_values(by=["Urban_Population_Percent"], inplace=True)
-    df.set_index("Urban_Population_Percent")
-    ax.scatter(df["Urban_Population_Percent"], df["Life_Expectancy"])
+    df.sort_values(by=[column], inplace=True)
+    df.set_index(column)
+    ax.scatter(df[column], df["Life_Expectancy"], s=1)
     ax.plot(Urban_Population_Percent, prediction, marker="*", markersize=5, c="red")
     st.pyplot(fig)
