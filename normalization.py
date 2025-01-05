@@ -29,13 +29,30 @@ def fill_mice(dataset):
     imputed_data = pd.DataFrame(mice.fit_transform(dataset), columns=dataset.columns)
     return imputed_data
 
-def normalize(dataset):
-    scaler = MinMaxScaler()
-    num_cols = dataset.select_dtypes(include=["float64", "int64"]).columns
-    dataset[num_cols] = scaler.fit_transform(dataset[num_cols])
+def remove_outliers(dataset, excluded):
+    for column in dataset.select_dtypes(include=['number']).columns:
+        if column in excluded:
+            continue
+        Q1 = dataset[column].quantile(0.25)
+        Q3 = dataset[column].quantile(0.75)
+        IQR = Q3 - Q1
+
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+
+        dataset = dataset[(dataset[column] >= lower_bound) & (dataset[column] <= upper_bound)]
+
     return dataset
 
-def normalize_lasso(dataset):
+def remove_outliers_zscore(dataset, threshold, excluded):
+    for column in dataset.select_dtypes(include=['number']).columns:
+        if column in excluded:
+            continue
+        z_scores = (dataset[column] - dataset[column].mean()) / dataset[column].std()
+        dataset[column] = dataset[column].apply(lambda x: dataset[column].max() if abs((x - dataset[column].mean()) / dataset[column].std()) > threshold else x)
+    return dataset
+
+def normalize(dataset):
     scaler = StandardScaler()
     num_cols = dataset.select_dtypes(include=["float64", "int64"]).columns
     dataset[num_cols] = scaler.fit_transform(dataset[num_cols])

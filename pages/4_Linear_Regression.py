@@ -8,19 +8,8 @@ from sklearn.model_selection import train_test_split
 file_path_original = "global_health.csv"
 df_original = pd.read_csv(file_path_original)
 
-model_option = ["Clean Data", "Normalized Data"]
+file_path = "clean_data.csv"
 
-selected_model = st.radio("Select dataset:", model_option, horizontal=True)
-
-clean = selected_model == "Clean Data"
-normalized = selected_model == "Normalized Data"
-
-file_path = ""
-
-if clean:
-    file_path = "clean_data.csv"
-elif normalized:
-    file_path = "normalized.csv"
 
 df = pd.read_csv(file_path)
 
@@ -64,15 +53,29 @@ def create_input_row(df, user_inputs):
 X_new = create_input_row(df, user_inputs)
 
 prediction = model.predict(X_new)
-
+y_pred = model.predict(X_test)
 
 st.write("### Predicted Life Expectancy:")
 st.write(f"{prediction[0]:.2f} years")
 
-for column in X.columns:
-    fig, ax = plt.subplots()
-    df.sort_values(by=[column], inplace=True)
-    df.set_index(column)
-    ax.scatter(df[column], df["Life_Expectancy"], s=1)
-    ax.plot(Urban_Population_Percent, prediction, marker="*", markersize=5, c="red")
-    st.pyplot(fig)
+# fig, ax = plt.subplots()
+# ax.scatter(y_test, y_pred, color="blue", alpha=0.5, label="Actual vs Predicted")
+# ax.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red', linestyle='--', label='Perfect Prediction')
+#
+# ax.scatter(Fertility_Rate, prediction[0], color="red", s=100, marker="*", label="User Prediction")
+# ax.set_xlabel('Actual Life Expectancy')
+# ax.set_ylabel('Predicted Life Expectancy')
+# ax.set_title('Actual vs Predicted Life Expectancy')
+# ax.legend()
+# st.pyplot(fig)
+
+
+selected_column = st.selectbox("Select a column for plotting", options=df.columns)
+
+fig, ax = plt.subplots()
+df.sort_values(by=[selected_column], inplace=True)
+df.set_index(selected_column)
+ax.scatter(df[selected_column], df["Life_Expectancy"], s=10)
+ax.plot(Fertility_Rate, prediction, marker="*", markersize=5, c="red")
+ax.set_xlim(df[selected_column].min(), df[selected_column].max())
+st.pyplot(fig)
