@@ -1,18 +1,19 @@
 import pandas as pd
 import streamlit as st
-from normalization import drop_columns, fill_mice, fill_knn, fill_mean, normalize
+from normalization import drop_columns, fill_mice, fill_knn, fill_mean, normalize, encode
 
 file_path = "global_health.csv"
 
 df = pd.read_csv(file_path)
 
-to_drop = ["Water_Access_Percent", "Hospital_Beds_Per_1000", "Suicide_Rate_Percent", "Country_Code", "Country",
+to_drop = ["Water_Access_Percent", "Hospital_Beds_Per_1000", "Suicide_Rate_Percent", "Country_Code",
            "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
            "Life_Expectancy_Male", "Female_Population", "Male_Population"]
 
 fill_value_option = ["Mean", "KNN", "MICE"]
 
 df = drop_columns(df, to_drop)
+df = encode(df, "Country")
 
 st.title("Normalized and Cleaned Data")
 
