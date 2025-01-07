@@ -1,6 +1,6 @@
 import streamlit as st
 from AppClass import RegressionLayout
-from regressions_functions import linear_regression
+from regressions_functions import linear_regression, lasso_regression, random_forest_regression, ridge_regression
 
 file_path = "clean_data.csv"
 
@@ -32,3 +32,17 @@ user_inputs = {"Fertility_Rate": Fertility_Rate,
 
 if layout.selected_regression == "Linear Regression":
     st.write(linear_regression(file_path, "Life_Expectancy", user_inputs))
+elif layout.selected_regression == "Lasso Regression":
+    st.write(lasso_regression(file_path, "Life_Expectancy", user_inputs))
+elif layout.selected_regression == "Ridge Regression":
+    st.write(ridge_regression(file_path, "Life_Expectancy", user_inputs))
+elif layout.selected_regression == "Random Forest Regression":
+    st.write(random_forest_regression(file_path, "Life_Expectancy", user_inputs))
+
+options = ["Immunization Rate", "Fertility Rate", "GDP Per Capita", "Air Pollution", "Infant Deaths", "Urban Population Percent"]
+
+selected_option = st.selectbox(
+    'Select a feature against which to plot the target feature',
+    options=options,
+    index=options.index("Immunization Rate")
+)
