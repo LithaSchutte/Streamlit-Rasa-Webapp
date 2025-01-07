@@ -4,9 +4,13 @@ from matplotlib import pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
+from AppClass import RegressionLayout
 
-st.title('Model Evaluation')
+
 file_path = "clean_data.csv"
+
+layout = RegressionLayout("Model Evaluation")
+layout.run()
 
 df = pd.read_csv(file_path)
 target_column = "Life_Expectancy"
@@ -35,15 +39,3 @@ ax.set_xlabel("Actual Values")
 ax.set_ylabel("Predicted Values")
 ax.set_title("Actual vs Predicted Values")
 st.pyplot(fig)
-
-st.write('Mean Squared Error:')
-st.write()
-
-
-
-st.write("## Linear Model")
-st.write('Mean Squared Error:')
-st.write()
-
-st.write("## Lasso Model")
-st.write()
