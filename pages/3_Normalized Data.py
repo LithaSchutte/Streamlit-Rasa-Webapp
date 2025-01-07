@@ -7,7 +7,7 @@ from normalization import drop_columns, fill_mice, fill_knn, fill_mean, normaliz
 file_path = "global_health.csv"
 df = pd.read_csv(file_path)
 
-df = df[~df["Country"].isin(["India", "China", "Monaco"])]
+# df = df[~df["Country"].isin(["India", "China", "Monaco"])]
 
 # Default features
 default_features = ["Water_Access_Percent", "Country_Code", "Country", "Life_Expectancy_Female",

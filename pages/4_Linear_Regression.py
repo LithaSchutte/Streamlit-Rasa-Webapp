@@ -79,3 +79,5 @@ ax.scatter(df[selected_column], df["Life_Expectancy"], s=10)
 ax.plot(Fertility_Rate, prediction, marker="*", markersize=5, c="red")
 ax.set_xlim(df[selected_column].min(), df[selected_column].max())
 st.pyplot(fig)
+
+st.write(model.coef_)
