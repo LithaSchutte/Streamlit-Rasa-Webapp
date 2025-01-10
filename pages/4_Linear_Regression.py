@@ -12,7 +12,6 @@ file_path = "clean_data.csv"
 
 
 df = pd.read_csv(file_path)
-
 target_column = "Life_Expectancy"
 
 X = df.drop(columns=target_column)

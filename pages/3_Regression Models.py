@@ -1,13 +1,18 @@
 import streamlit as st
-from AppClass import RegressionLayout
-from regressions_functions import linear_regression, lasso_regression, random_forest_regression, ridge_regression
+from AppClass import RegressionLayout, RegressionModels
 
 file_path = "clean_data.csv"
+target_feature = "Life_Expectancy"
 
 layout = RegressionLayout()
 layout.run()
 
-# Input sliders for regression features
+
+st.write(
+    "Below you can adjust some features to make a prediction. The sliders and input fields allow you to customize values"
+    " for key factors that influence the prediction. Use these controls to simulate different scenarios and understand "
+    "how changes in these variables affect the predicted outcomes.")
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -22,24 +27,40 @@ with col3:
     Urban_Population_Percent = st.number_input("Urban Population Percent", min_value=0, max_value=100, value=58, step=1)
     Immunization_Rate = st.number_input("Immunization Rate", min_value=0, max_value=100, value=85, step=1)
 
-user_inputs = {"Fertility_Rate": Fertility_Rate,
-               "Urban_Population_Percent": Urban_Population_Percent,
-               "GDP_Per_Capita": GDP_Per_Capita,
-               "Air_Pollution": Air_Pollution,
-               "Infant_Deaths": Infant_Deaths,
-               "Immunization_Rate": Immunization_Rate,}
+user_inputs = {
+    "Fertility_Rate": Fertility_Rate,
+    "Urban_Population_Percent": Urban_Population_Percent,
+    "GDP_Per_Capita": GDP_Per_Capita,
+    "Air_Pollution": Air_Pollution,
+    "Infant_Deaths": Infant_Deaths,
+    "Immunization_Rate": Immunization_Rate,
+}
+
+regression_model = RegressionModels(file_path, target_feature)
 
 
-if layout.selected_regression == "Linear Regression":
-    st.write(linear_regression(file_path, "Life_Expectancy", user_inputs))
-elif layout.selected_regression == "Lasso Regression":
-    st.write(lasso_regression(file_path, "Life_Expectancy", user_inputs))
-elif layout.selected_regression == "Ridge Regression":
-    st.write(ridge_regression(file_path, "Life_Expectancy", user_inputs))
-elif layout.selected_regression == "Random Forest Regression":
-    st.write(random_forest_regression(file_path, "Life_Expectancy", user_inputs))
+with output1:
+    if layout.selected_regression == "Linear Regression":
+        st.write(regression_model.linear_regression(user_inputs)[0])
+    elif layout.selected_regression == "Lasso Regression":
+        st.write(regression_model.lasso_regression(user_inputs)[0])
+    elif layout.selected_regression == "Ridge Regression":
+        st.write(regression_model.ridge_regression(user_inputs)[0])
+    elif layout.selected_regression == "Random Forest Regression":
+        st.write(regression_model.random_forest_regression(user_inputs)[0])
 
-options = ["Immunization Rate", "Fertility Rate", "GDP Per Capita", "Air Pollution", "Infant Deaths", "Urban Population Percent"]
+with output2:
+    st.write("Your predicted value for life expectancy is ")
+
+
+options = [
+    "Immunization Rate",
+    "Fertility Rate",
+    "GDP Per Capita",
+    "Air Pollution",
+    "Infant Deaths",
+    "Urban Population Percent",
+]
 
 selected_option = st.selectbox(
     'Select a feature against which to plot the target feature',
