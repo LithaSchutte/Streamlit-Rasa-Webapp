@@ -1,28 +1,19 @@
 import os
-import pandas as pd
 import streamlit as st
 from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
 from normalization import drop_columns, fill_mice, normalize
 import plotly.express as px
-
+from AppClass import DataLoader
 
 st.title("🌍 Global Health & Development")
 data_file = 'global_health.csv'
 
+data_loader = DataLoader(file_path=data_file, cache_data=True)
 
-@st.cache_data
-def load_data(file_path):
-    try:
-        data = pd.read_csv(file_path)
-        return data
-    except FileNotFoundError:
-        st.error(f"File not found: {file_path}")
-        return pd.DataFrame()
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
-        return pd.DataFrame()
+original_data = data_loader.load_data()
 
-original_data = load_data(data_file)
+
+# create initial versions of fake data and clean data upon start
 
 if 'fake_data.csv' not in os.listdir() and 'real_data_with_added_fake_data.csv' not in os.listdir():
     fake_data = generate_fake_data(original_data, 1000)
@@ -37,16 +28,10 @@ if 'normalized.csv' not in os.listdir() and 'clean_data.csv' not in os.listdir()
                "Year", "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
                "Life_Expectancy_Male", "Female_Population", "Male_Population", "Total_Population"]
 
-    # Drop unnecessary columns
     cleaned_data = drop_columns(original_data, to_drop)
-
-    # Fill missing values using MICE
     filled_data = fill_mice(cleaned_data)
-
-    # Normalize the data
     normalized_data = normalize(filled_data)
 
-    # Save the processed files
     normalized_data.to_csv('normalized.csv', index=False)
     filled_data.to_csv('cleaned_data.csv', index=False)
 

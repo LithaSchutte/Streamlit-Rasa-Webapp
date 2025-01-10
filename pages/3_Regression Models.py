@@ -38,6 +38,7 @@ user_inputs = {
 
 regression_model = RegressionModels(file_path, target_feature)
 
+output1, output2 = st.columns(2)
 
 with output1:
     if layout.selected_regression == "Linear Regression":
