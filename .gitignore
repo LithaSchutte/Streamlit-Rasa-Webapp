@@ -6,4 +6,4 @@ fake_data.csv
 normalized.csv
 normalized_global_health.csv
 real_data_with_added_fake_data.csv
-rasa/.rasa
+.rasa
