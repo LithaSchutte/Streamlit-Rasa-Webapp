@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression, LassoCV, Lasso, RidgeCV
 from sklearn.metrics import mean_squared_error
@@ -110,16 +111,19 @@ class RegressionModels:
 
     def _train_and_predict(self, model, user_inputs=None, scaler=None):
         x_train = self.x_train
+        x_test = self.x_test
         if scaler:
             scaler = scaler.fit(self.x_train)
             x_train = scaler.transform(self.x_train)
+            x_test = scaler.transform(self.x_test)
 
         model.fit(x_train, self.y_train)
 
         y_train_pred = model.predict(x_train)
+        y_test_pred = model.predict(x_test)
 
-        mse = mean_squared_error(self.y_train, y_train_pred)
-        r_squared = model.score(x_train, self.y_train)
+        mse = mean_squared_error(self.y_test, y_test_pred)
+        r_squared = model.score(self.x_test, self.y_test)
 
         if user_inputs:
             x_new = self.create_input_row(user_inputs)
@@ -127,10 +131,10 @@ class RegressionModels:
                 x_new = scaler.transform(x_new)
 
             prediction = model.predict(x_new)
-            return [f"Predicted Life Expectancy: {prediction[0]:.2f}", mse, r_squared]
+            return [f"Predicted Life Expectancy: {prediction[0]:.2f}", mse, r_squared, y_test_pred]
         else:
-            # Return only evaluation metrics
-            return [None, mse, r_squared]
+            # Return evaluation metrics and test predictions
+            return [None, mse, r_squared, y_test_pred]
 
     def linear_regression(self, user_inputs=None):
         model = LinearRegression()
@@ -153,3 +157,20 @@ class RegressionModels:
     def random_forest_regression(self, user_inputs=None):
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         return self._train_and_predict(model, user_inputs)
+
+    def plot_actual_vs_predicted(self, y_test, y_pred):
+        fig, ax = plt.subplots(figsize=(8,6))
+        ax.scatter(y_test, y_pred, alpha=0.6, color='blue', label="Predicted")
+        ax.plot(
+            [y_test.min(), y_test.max()],
+            [y_test.min(), y_test.max()],
+            color='red',
+            linestyle='--',
+            label="Perfect Prediction"
+        )
+        ax.set_title("Actual vs Predicted Values")
+        ax.set_xlabel("Actual Values")
+        ax.set_ylabel("Predicted Values")
+        ax.legend()
+        ax.grid(True)
+        return fig

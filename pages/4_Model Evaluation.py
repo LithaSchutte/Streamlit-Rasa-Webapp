@@ -15,17 +15,36 @@ layout = RegressionLayout("Model Evaluation")
 layout.run()
 
 if layout.selected_regression == "Linear Regression":
-    st.write(f"Mean Squared Error: {regression_model.linear_regression()[1]}")
-    st.write(f"R Squared: {regression_model.linear_regression()[2]}")
+    result = regression_model.linear_regression()
+    st.write(f"Mean Squared Error: {result[1]}")
+    st.write(f"R Squared: {result[2]}")
+    st.write("### Actual vs Predicted Values")
+    fig = regression_model.plot_actual_vs_predicted(regression_model.y_test, result[3])
+    st.pyplot(fig)
+
 elif layout.selected_regression == "Lasso Regression":
-    st.write(f"Mean Squared Error: {regression_model.lasso_regression()[1]}")
-    st.write(f"R Squared: {regression_model.lasso_regression()[2]}")
+    result = regression_model.lasso_regression()
+    st.write(f"Mean Squared Error: {result[1]}")
+    st.write(f"R Squared: {result[2]}")
+    st.write("### Actual vs Predicted Values")
+    fig = regression_model.plot_actual_vs_predicted(regression_model.y_test, result[3])
+    st.pyplot(fig)
+
 elif layout.selected_regression == "Ridge Regression":
-    st.write(f"Mean Squared Error: {regression_model.ridge_regression()[1]}")
-    st.write(f"R Squared: {regression_model.ridge_regression()[2]}")
+    result = regression_model.ridge_regression()
+    st.write(f"Mean Squared Error: {result[1]}")
+    st.write(f"R Squared: {result[2]}")
+    st.write("### Actual vs Predicted Values")
+    fig = regression_model.plot_actual_vs_predicted(regression_model.y_test, result[3])
+    st.pyplot(fig)
+
 elif layout.selected_regression == "Random Forest Regression":
-    st.write(f"Mean Squared Error: {regression_model.random_forest_regression()[1]}")
-    st.write(f"R Squared: {regression_model.random_forest_regression()[2]}")
+    result = regression_model.random_forest_regression()
+    st.write(f"Mean Squared Error: {result[1]}")
+    st.write(f"R Squared: {result[2]}")
+    st.write("### Actual vs Predicted Values")
+    fig = regression_model.plot_actual_vs_predicted(regression_model.y_test, result[3])
+    st.pyplot(fig)
 
 
 # df = pd.read_csv(file_path)
