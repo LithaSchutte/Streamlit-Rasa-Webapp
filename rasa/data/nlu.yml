@@ -89,3 +89,15 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: analyze_health_trends
+  examples: |
+    - I need help analyzing global health trends
+    - Can you help me analyze health data?
+    - I want to explore health trends worldwide
+
+- intent: get_health_insights
+  examples: |
+    - which country has the highest obesity and overweight rate?
+    - show me the mean obesity rate across all countries
+    - What is the obesity rate in [United States](country)?

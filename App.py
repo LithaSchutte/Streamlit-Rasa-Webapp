@@ -51,4 +51,3 @@ fig = px.choropleth(locations=unique_countries,
 fig.update_layout(coloraxis_showscale=False)
 
 st.plotly_chart(fig)
-

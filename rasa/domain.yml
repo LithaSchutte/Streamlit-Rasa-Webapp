@@ -8,26 +8,49 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - analyze_health_trends
+  - get_health_insights
+
+entities:
+  - country
+  - health_indicator
+
+slots:
+  country:
+    type: text
+  health_indicator:
+    type: text
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+    - text: "Hey! How can I help you today?"
 
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
 
   utter_did_that_help:
-  - text: "Did that help you?"
+    - text: "Did that help you?"
 
   utter_happy:
-  - text: "Great, carry on!"
+    - text: "Great, carry on!"
 
   utter_goodbye:
-  - text: "Bye"
+    - text: "Bye"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+    - text: "I am a bot, powered by Rasa."
+
+  utter_farewell:
+    - text: "Have a nice day. Please let me know if I can assist you again in the future."
+
+  utter_health_trends_options:
+    - text: |
+        I can assist you in the following ways:
+        - Provide insights into global health data such as the average, min, or max.
+        - Compare health factors of different countries over a span of 10 years.
+        - Explore the correlations between different health indicators.
+        Please tell me which task you’d like help with.
 
 session_config:
   session_expiration_time: 60
