@@ -82,6 +82,7 @@ nlu:
     - extremly sad
     - so saad
     - so sad
+    - i have headache
 
 - intent: bot_challenge
   examples: |
@@ -90,14 +91,12 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
-- intent: analyze_health_trends
+- intent: advice
   examples: |
-    - I need help analyzing global health trends
-    - Can you help me analyze health data?
-    - I want to explore health trends worldwide
+    - I need advice
+    - Can you advice me?
 
-- intent: get_health_insights
+- intent: finance
   examples: |
-    - which country has the highest obesity and overweight rate?
-    - show me the mean obesity rate across all countries
-    - What is the obesity rate in [United States](country)?
+    - I need financial advice
+    - I need help with finances

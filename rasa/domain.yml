@@ -8,18 +8,8 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - analyze_health_trends
-  - get_health_insights
-
-entities:
-  - country
-  - health_indicator
-
-slots:
-  country:
-    type: text
-  health_indicator:
-    type: text
+  - advice
+  - finance
 
 responses:
   utter_greet:
@@ -41,16 +31,11 @@ responses:
   utter_iamabot:
     - text: "I am a bot, powered by Rasa."
 
-  utter_farewell:
-    - text: "Have a nice day. Please let me know if I can assist you again in the future."
+  utter_ask_information:
+    - text: "What advice do you need? I would be happy to help you."
 
-  utter_health_trends_options:
-    - text: |
-        I can assist you in the following ways:
-        - Provide insights into global health data such as the average, min, or max.
-        - Compare health factors of different countries over a span of 10 years.
-        - Explore the correlations between different health indicators.
-        Please tell me which task you’d like help with.
+  utter_advice:
+    - text: "Here is some financial advice"
 
 session_config:
   session_expiration_time: 60
