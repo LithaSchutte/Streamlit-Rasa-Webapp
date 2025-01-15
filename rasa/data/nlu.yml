@@ -100,3 +100,14 @@ nlu:
   examples: |
     - I need financial advice
     - I need help with finances
+
+- intent: column_mean
+  examples: |
+    - I want to know [life expectancy](column_name) mean
+    - What is the average [fertility rate](column_name)
+    - What is the average value for [obesity rate](column_name)?
+    - How much is the average [unemployment rate](column_name)?
+
+- synonym: mean
+  examples: |
+    - average

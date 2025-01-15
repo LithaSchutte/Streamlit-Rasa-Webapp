@@ -10,6 +10,7 @@ intents:
   - bot_challenge
   - advice
   - finance
+  - column_mean
 
 responses:
   utter_greet:
@@ -36,6 +37,20 @@ responses:
 
   utter_advice:
     - text: "Here is some financial advice"
+
+
+actions:
+  - action_mean
+
+slots:
+  column_name:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: column_name
+
+entities:
+  - column_name
 
 session_config:
   session_expiration_time: 60

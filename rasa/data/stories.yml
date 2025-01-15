@@ -37,3 +37,15 @@ stories:
     - action: utter_ask_information
     - intent: finance
     - action: utter_advice
+
+- story: column mean
+  steps:
+    - intent: greet
+    - action : utter_greet
+    - intent: column_mean
+    - action: action_mean
+
+- story: Provide column mean
+  steps:
+    - intent: column_mean
+    - action: action_mean

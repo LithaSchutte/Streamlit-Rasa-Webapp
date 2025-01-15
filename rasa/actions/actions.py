@@ -25,3 +25,43 @@
 #         dispatcher.utter_message(text="Hello World!")
 #
 #         return []
+from typing import Any, Text, Dict, List
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
+import pandas as pd
+from rapidfuzz import process, fuzz
+
+# Load your dataset
+DATA_PATH = "../global_health.csv"
+
+try:
+    data = pd.read_csv(DATA_PATH)
+    print(data.head())
+except FileNotFoundError:
+    print(f"File not found!")
+
+# class ActionMeanLifeExpectancy(Action):
+#     def name(self) -> Text:
+#         return "action_mean_life_expectancy"
+#
+#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         mean_life_expectancy = data["Life_Expectancy"].mean()
+#         dispatcher.utter_message(text=f"The mean life expectancy across all countries is {mean_life_expectancy:.2f} years.")
+#         return []
+
+class ActionGetAverage(Action):
+    def name(self) -> str:
+        return "action_mean"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
+        # Get the column name from the slot
+        column_name = tracker.get_slot("column_name")
+
+        if not column_name:
+            dispatcher.utter_message(text="I couldn't understand the column name. Can you clarify?")
+            return []
+
+        # Simulate processing the column name
+        dispatcher.utter_message(text=f"The column name you provided is: {column_name}")
+        return [SlotSet("column_name", column_name)]
