@@ -49,6 +49,21 @@ except FileNotFoundError:
 #         mean_life_expectancy = data["Life_Expectancy"].mean()
 #         dispatcher.utter_message(text=f"The mean life expectancy across all countries is {mean_life_expectancy:.2f} years.")
 #         return []
+class ActionGetCountryData(Action):
+    def name(self) -> str:
+        return "action_country_specific"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
+        geo_country = tracker.get_slot("geo_country")
+
+        if not geo_country:
+            dispatcher.utter_message(
+                text="I didn't understand the country name. Can you please specify the country that you meant?")
+            return []
+
+        dispatcher.utter_message(text=f"The selected country is {geo_country}")
+        return [SlotSet("geo_country", geo_country)]
+
 
 class ActionGetAverage(Action):
     def name(self) -> str:

@@ -170,6 +170,16 @@ nlu:
     - Find the [max](value_action) percentage of [overweight individuals](column_name).
     - How much is the [max](value_action) [infant deaths](column_name)?
 
+- intent: find_country
+  examples: |
+    - Tell me about [Germany](geo_country)
+    - What can you tell me about [Canada](geo_country)?
+    - How is the situation in [France](geo_country)?
+    - Give me information on [India](geo_country)
+    - What is the GDP of [Brazil](geo_country)?
+    - I want to know about [Australia](geo_country)
+    - What can you tell me about [Japan](geo_country)?
+    - Do you have data on [Mexico](geo_country)?
 
 - synonym: mean
   examples: |

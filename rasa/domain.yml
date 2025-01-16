@@ -11,6 +11,7 @@ intents:
   - advice
   - finance
   - column_stat
+  - find_country
 
 responses:
   utter_greet:
@@ -41,6 +42,7 @@ responses:
 
 actions:
   - action_calculate_column_stat
+  - action_country_specific
 
 slots:
   column_name:
@@ -53,10 +55,16 @@ slots:
     mappings:
       - type: from_entity
         entity: value_action
+  geo_country:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: geo_country
 
 entities:
   - column_name
   - value_action
+  - geo_country
 
 session_config:
   session_expiration_time: 60

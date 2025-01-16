@@ -49,3 +49,9 @@ stories:
   steps:
     - intent: column_stat
     - action: action_calculate_column_stat
+
+
+- story: Ask about a Country
+  steps:
+    - intent: find_country
+    - action: action_country_specific
