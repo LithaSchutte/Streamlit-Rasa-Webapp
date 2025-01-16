@@ -60,11 +60,16 @@ slots:
     mappings:
       - type: from_entity
         entity: geo_country
+  GPE:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: GPE
 
 entities:
   - column_name
   - value_action
-  - geo_country
+  - GPE
 
 session_config:
   session_expiration_time: 60

@@ -177,6 +177,7 @@ nlu:
     - How is the situation in [France](geo_country)?
     - Give me information on [India](geo_country)
     - What is the GDP of [Brazil](geo_country)?
+    - I want to learn about [GPE](geo_country)
     - I want to know about [Australia](geo_country)
     - What can you tell me about [Japan](geo_country)?
     - Do you have data on [Mexico](geo_country)?
