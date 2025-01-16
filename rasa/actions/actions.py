@@ -52,19 +52,36 @@ except FileNotFoundError:
 
 class ActionGetAverage(Action):
     def name(self) -> str:
-        return "action_mean"
+        return "action_calculate_column_stat"
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
         # Get the column name from the slot
         column_name = tracker.get_slot("column_name")
+        value_action = tracker.get_slot("value_action")
+
+        if not value_action:
+            dispatcher.utter_message(
+                text="I need to know whether you want the 'min', 'max', or 'mean' value. Can you specify?")
+            return []
 
         columns = data.columns.tolist()
         match, score = process.extractOne(column_name, columns)
-        mean_val = data[match].mean()
+
+        if value_action == "mean":
+            result = data[match].mean()
+        elif value_action == "min":
+            result = data[match].min()
+        elif value_action == "max":
+            result = data[match].max()
+        else:
+            dispatcher.utter_message(
+                text=f"I can only calculate 'min', 'max', or 'mean'. You requested '{value_action}'.")
+            return []
+
         if not column_name:
             dispatcher.utter_message(text="I couldn't understand the column name. Can you clarify?")
             return []
 
         # Simulate processing the column name
-        dispatcher.utter_message(text=f"The average for {column_name} is {mean_val:.2f}")
-        return [SlotSet("column_name", column_name)]
+        dispatcher.utter_message(text=f"The {value_action} for {match} is {result}")
+        return [SlotSet("column_name", column_name), SlotSet("value_action", value_action)]

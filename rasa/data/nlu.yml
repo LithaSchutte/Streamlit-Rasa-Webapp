@@ -101,12 +101,75 @@ nlu:
     - I need financial advice
     - I need help with finances
 
-- intent: column_mean
+#- intent: column_mean
+#  examples: |
+#    - I want to know [life expectancy](column_name) mean
+#    - What is the average [fertility rate](column_name)
+#    - What is the average value for [obesity rate](column_name)?
+#    - How much is the average [unemployment rate](column_name)?
+#    - What is the mean value of [life expectancy](column_name)?
+#    - Can you calculate the average [fertility rate](column_name)?
+#    - What is the average value for the [obesity rate percentage](column_name)?
+#    - How much is the mean [unemployment rate](column_name)?
+#    - What is the average [year](column_name) recorded in the dataset?
+#    - Could you compute the mean percentage of [urban population](column_name)?
+#    - Find the average [total population](column_name) across all records.
+#    - Determine the mean percentage of [water access](column_name).
+#    - What is the average expenditure on [sanitation as a percentage of GDP](column_name)?
+#    - Calculate the mean [life expectancy of females](column_name).
+#    - How high is the average [life expectancy for males](column_name)?
+#    - On average, how many [infant deaths](column_name) are reported in the dataset?
+#    - Could you find the mean [GDP per capita](column_name)?
+#    - What is the average number of [hospital beds per 1000 people](column_name)?
+#    - Find the average [female population](column_name) size.
+#    - Determine the mean [male population](column_name) in the dataset.
+#    - How much is the average [alcohol consumption per capita](column_name)?
+#    - What is the average [immunization rate](column_name)?
+#    - Could you calculate the mean [sanitation expense per capita](column_name)?
+#    - What is the average percentage of [CO2 exposure](column_name)?
+#    - How high is the mean level of [air pollution](column_name) recorded?
+#    - On average, what is the size of the [total labor force](column_name)?
+#    - Determine the mean number of [tuberculosis cases per 100,000](column_name).
+#    - How much is the average [suicide rate percentage](column_name)?
+#    - Calculate the mean percentage of [obesity rates](column_name).
+#    - What is the average percentage of [underweight individuals](column_name)?
+#    - Find the mean percentage of [overweight individuals](column_name).
+#    - On average, how much access is there to [safe water](column_name)?
+
+
+- intent: column_stat
   examples: |
-    - I want to know [life expectancy](column_name) mean
-    - What is the average [fertility rate](column_name)
-    - What is the average value for [obesity rate](column_name)?
-    - How much is the average [unemployment rate](column_name)?
+    - I want to know [life expectancy](column_name) [mean](value_action)
+    - What is the [mean](value_action) [fertility rate](column_name)
+    - What is the [max](value_action) value for [obesity rate](column_name)?
+    - How much is the [min](value_action) [unemployment rate](column_name)?
+    - What is the [mean](value_action) value of [life expectancy](column_name)?
+    - Can you calculate the [mean](value_action) [fertility rate](column_name)?
+    - What is the [min](value_action) value for the [obesity rate percentage](column_name)?
+    - How much is the [max](value_action) [unemployment rate](column_name)?
+    - What is the [mean](value_action) [year](column_name) recorded in the dataset?
+    - Could you compute the [mean](value_action) percentage of [urban population](column_name)?
+    - Find the [max](value_action) [total population](column_name) across all records.
+    - Determine the [min](value_action) percentage of [water access](column_name).
+    - What is the [mean](value_action) expenditure on [sanitation as a percentage of GDP](column_name)?
+    - Calculate the [mean](value_action) [life expectancy of females](column_name).
+    - How high is the [max](value_action) [life expectancy for males](column_name)?
+    - Could you find the [min](value_action) [GDP per capita](column_name)?
+    - What is the [max](value_action) number of [hospital beds per 1000 people](column_name)?
+    - Find the [mean](value_action) [female population](column_name) size.
+    - Determine the [max](value_action) [male population](column_name) in the dataset.
+    - How much is the [min](value_action) [alcohol consumption per capita](column_name)?
+    - What is the [mean](value_action) [immunization rate](column_name)?
+    - Could you calculate the [max](value_action) [sanitation expense per capita](column_name)?
+    - What is the [mean](value_action) percentage of [CO2 exposure](column_name)?
+    - How high is the [max](value_action) level of [air pollution](column_name) recorded?
+    - Determine the [min](value_action) number of [tuberculosis cases per 100,000](column_name).
+    - How much is the [max](value_action) [suicide rate percentage](column_name)?
+    - Calculate the [mean](value_action) percentage of [obesity rates](column_name).
+    - What is the [min](value_action) percentage of [underweight individuals](column_name)?
+    - Find the [max](value_action) percentage of [overweight individuals](column_name).
+    - How much is the [max](value_action) [infant deaths](column_name)?
+
 
 - synonym: mean
   examples: |

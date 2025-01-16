@@ -42,10 +42,10 @@ stories:
   steps:
     - intent: greet
     - action : utter_greet
-    - intent: column_mean
-    - action: action_mean
+    - intent: column_stat
+    - action: action_calculate_column_stat
 
 - story: Provide column mean
   steps:
-    - intent: column_mean
-    - action: action_mean
+    - intent: column_stat
+    - action: action_calculate_column_stat

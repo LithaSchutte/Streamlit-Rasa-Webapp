@@ -10,7 +10,7 @@ intents:
   - bot_challenge
   - advice
   - finance
-  - column_mean
+  - column_stat
 
 responses:
   utter_greet:
@@ -40,7 +40,7 @@ responses:
 
 
 actions:
-  - action_mean
+  - action_calculate_column_stat
 
 slots:
   column_name:
@@ -48,9 +48,15 @@ slots:
     mappings:
       - type: from_entity
         entity: column_name
+  value_action:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: value_action
 
 entities:
   - column_name
+  - value_action
 
 session_config:
   session_expiration_time: 60
