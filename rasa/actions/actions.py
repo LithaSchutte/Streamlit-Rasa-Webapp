@@ -30,7 +30,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import pandas as pd
-from rapidfuzz import process, fuzz
+from fuzzywuzzy import process
 
 # Load your dataset
 DATA_PATH = "../global_health.csv"
@@ -58,10 +58,13 @@ class ActionGetAverage(Action):
         # Get the column name from the slot
         column_name = tracker.get_slot("column_name")
 
+        columns = data.columns.tolist()
+        match, score = process.extractOne(column_name, columns)
+        mean_val = data[match].mean()
         if not column_name:
             dispatcher.utter_message(text="I couldn't understand the column name. Can you clarify?")
             return []
 
         # Simulate processing the column name
-        dispatcher.utter_message(text=f"The column name you provided is: {column_name}")
+        dispatcher.utter_message(text=f"The average for {column_name} is {mean_val:.2f}")
         return [SlotSet("column_name", column_name)]
