@@ -172,15 +172,14 @@ nlu:
 
 - intent: find_country
   examples: |
-    - Tell me about [Germany](geo_country)
-    - What can you tell me about [Canada](geo_country)?
-    - How is the situation in [France](geo_country)?
-    - Give me information on [India](geo_country)
-    - What is the GDP of [Brazil](geo_country)?
-    - I want to learn about [GPE](geo_country)
-    - I want to know about [Australia](geo_country)
-    - What can you tell me about [Japan](geo_country)?
-    - Do you have data on [Mexico](geo_country)?
+    - Tell me about Germany
+    - What can you tell me about Canada?
+    - How is the situation in France?
+    - Give me information on India
+    - What is the GDP of Brazil?
+    - I want to know about Australia
+    - What can you tell me about Japan?
+    - Do you have data on Mexico?
 
 - synonym: mean
   examples: |

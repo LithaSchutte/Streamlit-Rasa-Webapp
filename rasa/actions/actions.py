@@ -54,7 +54,7 @@ class ActionGetCountryData(Action):
         return "action_country_specific"
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
-        geo_country = tracker.get_slot("geo_country")
+        geo_country = tracker.get_slot("country")
 
         if not geo_country:
             dispatcher.utter_message(
@@ -62,7 +62,7 @@ class ActionGetCountryData(Action):
             return []
 
         dispatcher.utter_message(text=f"The selected country is {geo_country}")
-        return [SlotSet("geo_country", geo_country)]
+        return [SlotSet("country", geo_country)]
 
 
 class ActionGetAverage(Action):
