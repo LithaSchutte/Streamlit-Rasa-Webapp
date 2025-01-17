@@ -136,7 +136,6 @@ nlu:
 #    - Find the mean percentage of [overweight individuals](column_name).
 #    - On average, how much access is there to [safe water](column_name)?
 
-
 - intent: column_stat
   examples: |
     - I want to know [life expectancy](column_name) [mean](value_action)
@@ -172,25 +171,15 @@ nlu:
 
 - intent: find_country
   examples: |
-    - Tell me about [Germany](geo_country)
-    - What can you tell me about [Canada](geo_country)?
-    - How is the situation in [France](geo_country)?
-    - Give me information on [India](geo_country)
-    - What is the GDP of [Brazil](geo_country)?
-    - I want to know about [Australia](geo_country)
-    - What can you tell me about [Japan](geo_country)?
-    - Do you have data on [Mexico](geo_country)?
-
-- lookup: geo_country
-  examples: |
-    - Sweden
-    - Russia
-    - Finland
-    - Spain
-    - Italy
-    - Congo
-    - China
-
+    - Tell me about Germany
+    - What can you tell me about Canada?
+    - How is the situation in France?
+    - Give me information on India
+    - What is the GDP of Brazil?
+    - I want to know about Australia
+    - What can you tell me about Japan?
+    - Do you have data on Mexico?
+    - What do you know about Zambia?
 
 - synonym: mean
   examples: |

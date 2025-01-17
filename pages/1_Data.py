@@ -20,7 +20,7 @@ st.set_page_config(layout="wide")
 
 st.title("Data Viewer and Insights")
 
-options = ["Original Data", "Normalized Data", "Data with Added Synthetic Data"]
+options = ["Original Data", "Processed Data", "Data with Added Synthetic Data"]
 
 selected_option = st.radio(
     "Select a dataset to display:",
@@ -29,7 +29,7 @@ selected_option = st.radio(
 
 file_mapping = {
     "Original Data": "global_health.csv",
-    "Normalized Data": "clean_data.csv",
+    "Processed Data": "clean_data.csv",
     "Data with Added Synthetic Data": "real_data_with_added_fake_data.csv"
 }
 
@@ -37,7 +37,7 @@ data_file = file_mapping.get(selected_option)
 
 if selected_option == "Data with added Synthetic Data":
     data = pd.read_csv(data_file) # do not cache, as fake data can be changed during runtime
-if selected_option == "Normalized Data":
+if selected_option == "Processed Data":
     data = pd.read_csv(data_file)
 else:
     data = load_data(data_file)
@@ -56,7 +56,7 @@ if not data.empty:
     st.markdown("---")
     st.write("### Data Correlation")
 
-    if selected_option == "Normalized Data":
+    if selected_option == "Processed Data":
         # Normalized Data View Options
         view_options = ["Table View", "Graph View"]
         selected_view = st.radio(
@@ -95,11 +95,6 @@ if not data.empty:
             st.pyplot(fig)
     else:
         st.warning("Correlation analysis is only available for Normalized Data.")
-
-        toggle_state = st.toggle("Switch to Normalized Data View")
-        if toggle_state:
-            data_file = "clean_normalized_data.csv"
-            data_placeholder.dataframe(load_data(data_file))
 
     st.write("## Data Visualization")
 

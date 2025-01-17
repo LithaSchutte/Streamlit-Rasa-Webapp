@@ -71,6 +71,7 @@ class RegressionLayout:
 
         if selected != st.session_state.selected_regression:
             st.session_state.selected_regression = selected
+            st.rerun()
         self.selected_regression = st.session_state.selected_regression
 
     def is_selected(self, regression_type):
@@ -131,8 +132,8 @@ class RegressionModels:
                 x_new = scaler.transform(x_new)
 
             prediction = model.predict(x_new)
-            return [f"Predicted Life Expectancy: {prediction[0]:.2f}", mse, r_squared, y_test_pred]
-        else:
+            return [prediction[0], mse, r_squared, y_test_pred]
+        else: # f"Predicted Life Expectancy: {prediction[0]:.2f}"
             return [None, mse, r_squared, y_test_pred]
 
     def linear_regression(self, user_inputs=None):
