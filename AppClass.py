@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression, LassoCV, Lasso, RidgeCV
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.utils import shuffle
 
 class DataLoader:
     def __init__(self, file_path, cache_data=True):
@@ -95,7 +96,8 @@ class RegressionLayout:
 
 class RegressionModels:
     def __init__(self, path, target):
-        self.dataset = pd.read_csv(path)
+        self.dataset = shuffle(pd.read_csv(path))
+
         self.target = target
         self.x = self.dataset.drop(columns=self.target)
         self.y = self.dataset[self.target]

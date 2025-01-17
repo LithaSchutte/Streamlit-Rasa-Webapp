@@ -1,6 +1,7 @@
 import streamlit as st
 from matplotlib import pyplot as plt
 
+
 from AppClass import RegressionLayout, RegressionModels, DataLoader
 
 file_path = "clean_data.csv"

@@ -9,12 +9,17 @@ st.set_page_config(layout="wide")
 
 # Title and Description
 st.title("Data Processing")
-st.write("## Synthetic Data Generation")
-st.write(
-    "Synthetic data is automatically generated when the application is started for necessary functionalities in other "
-    "parts of the application. However, as a user, you are welcome to regenerate synthetic data as often as you wish. "
-    "Synthetic data will always be randomized. Visit the data page to view the original dataset with the added synthetic data"
-)
+st.write("""### Synthetic Data Generation
+The application also allows for the generation of **synthetic data**:
+- **Why Generate Synthetic Data?**
+  - Synthetic data helps in testing and developing models without using sensitive real-world data.
+  - It mirrors real-world patterns while ensuring privacy and ethical use.
+- **How It's Done**:
+  - Numerical columns are randomized within the observed range of the dataset.
+  - Logical rules ensure realism, such as maintaining a consistent gap between male and female life expectancy.
+  - Categorical columns, like `Country`, are randomized based on predefined lists to reflect diversity.
+
+You can regenerate synthetic data or view the complete synthetic dataset directly in the app.""")
 
 st.write("Sample of the synthetic data:")
 
@@ -75,6 +80,26 @@ if fake_data is not None:
 
 
 st.write("## Cleaning and Preprocessing")
+
+st.write("""
+### Feature Engineering
+To ensure optimal performance and a clean dataset, some columns are dropped based on their relevance and relationship with the target variable. Here's how this process is handled:
+
+- **Dropped Columns**:
+  - `Life_Expectancy_Female` and `Life_Expectancy_Male` were removed because they overlap conceptually with the target variable, `Life_Expectancy`.
+  - Features with **low correlation** to the target variable, such as `Country`, 'Country_Code`, `Hospital_Beds_Per_1000`, `Labour_Force_Total` and `Suicide_Rate`, were excluded to reduce noise.
+  - Columns like `CO2_Exposure_Percent` were redundant, as they were identical to other features (e.g., `Air_Pollution`).
+  - `Water_Access_Percent` had a high number of missing values and conceptually overlapped with `Safe_Water_Access_Percent`, which was retained for better representation.
+
+This reduces unnecessary data, making the dataset more efficient for analysis and modeling.""")
+
+st.write("""### Data Transformation
+Once the dataset is refined, further transformations are applied:
+- **Handling Missing Values**: As a user you can select from three methods to fill missing data:
+  - `Mean`: Simple average replacement, effective when data is missing at random.
+  - `KNN`: Estimates missing values based on similar rows in the dataset.
+  - `MICE`: Uses relationships between variables to impute missing values. (provides the most accurate results).)""")
+
 fill_value_option = ["MICE", "Mean", "KNN"]
 
 columns_to_drop = ["CO2_Exposure_Percent","Total_Population", "Labour_Force_Total","Water_Access_Percent", "Country_Code", "Country", "Life_Expectancy_Female",
