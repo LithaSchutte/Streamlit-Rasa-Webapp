@@ -8,10 +8,10 @@ from AppClass import DataLoader  # Import the DataLoader class
 st.set_page_config(layout="wide")
 
 # Title and Description
-st.title("Data Processing")
-st.write("""### Synthetic Data Generation
+st.title("data Processing")
+st.write("""### Synthetic data Generation
 The application also allows for the generation of **synthetic data**:
-- **Why Generate Synthetic Data?**
+- **Why Generate Synthetic data?**
   - Synthetic data helps in testing and developing models without using sensitive real-world data.
   - It mirrors real-world patterns while ensuring privacy and ethical use.
 - **How It's Done**:
@@ -25,29 +25,25 @@ st.write("Sample of the synthetic data:")
 
 progress_placeholder = st.empty()
 
-# Initialize DataLoader for real data
-data_loader = DataLoader('global_health.csv')
+data_loader = DataLoader('../data/global_health.csv')
 
-# Load the real data using DataLoader
 real_data = data_loader.load_data()
 
-fake_data_file = 'fake_data.csv'
+fake_data_file = '../data/fake_data.csv'
 
-# Placeholder for displaying fake data
 data_placeholder = st.empty()
 
 fake_data = None
 
 if os.path.exists(fake_data_file):
-    # Load fake data if the file exists
-    fake_data_loader = DataLoader(fake_data_file)
+    fake_data_loader = DataLoader(fake_data_file, cache_data=False)
     fake_data = fake_data_loader.load_data()
     data_placeholder.dataframe(fake_data.head())
 
 col1, col2, col3 = st.columns([1, 1, 1], gap="small")
 
 with col1:
-    regenerate_button = st.button("Regenerate Synthetic Data", key="regenerate_fake_data_button")
+    regenerate_button = st.button("Regenerate Synthetic data", key="regenerate_fake_data_button")
 with col2:
     full_button = st.button("Show Complete Synthetic Dataset", key="show_complete_data_button")
 
@@ -70,7 +66,7 @@ if regenerate_button:
     data_placeholder.dataframe(fake_data.head())
 
     fake_data.to_csv(fake_data_file, index=False)
-    combined_data.to_csv('real_data_with_added_fake_data.csv', index=False)
+    combined_data.to_csv('../data/real_data_with_added_fake_data.csv', index=False)
 
 if fake_data is not None:
     if full_button:
@@ -93,7 +89,7 @@ To ensure optimal performance and a clean dataset, some columns are dropped base
 
 This reduces unnecessary data, making the dataset more efficient for analysis and modeling.""")
 
-st.write("""### Data Transformation
+st.write("""### data Transformation
 Once the dataset is refined, further transformations are applied:
 - **Handling Missing Values**: As a user you can select from three methods to fill missing data:
   - `Mean`: Simple average replacement, effective when data is missing at random.
@@ -115,11 +111,9 @@ selected_algorithm = st.radio(
     horizontal=True
 )
 
-# Update session state when radio value changes
 if selected_algorithm != st.session_state.selected_algorithm:
     st.session_state.selected_algorithm = selected_algorithm
 
-# Drop unnecessary columns
 df = drop_columns(real_data, columns_to_drop)
 
 # Apply the selected filling algorithm
@@ -133,10 +127,9 @@ elif st.session_state.selected_algorithm == "MICE":
 st.write("Clean data with missing data filled")
 st.write(df)
 
-df.to_csv("clean_data.csv", index=False)
+df.to_csv("../data/clean_data.csv", index=False)
 
-# Normalize the data
 df = normalize(df)
 st.write("Normalized data")
 st.write(df)
-df.to_csv("normalized.csv", index=False)
+df.to_csv("../data/normalized.csv", index=False)
