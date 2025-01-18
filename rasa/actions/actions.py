@@ -87,3 +87,52 @@ class ActionCompareCountries(Action):
         dispatcher.utter_message(text=message)
 
         return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]
+
+class ActionHealthByYear(Action):
+    def name(self) -> str:
+        return "action_health_by_year"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
+        column_name = tracker.get_slot("column_name")
+        year = tracker.get_slot("DATE")
+
+        columns = data.columns.tolist()
+        match, score = process.extractOne(column_name, columns) # match = column
+
+        countries = tracker.get_slot("GPE")
+
+        value = data[(data['Country'] == countries[0]) & (data['Year'] == year)][match].iloc[0]
+
+        message = f"The value for {match} in {countries[0]} in {year} was {value:.2f}"
+
+        dispatcher.utter_message(text=message)
+
+        return [SlotSet("column_name", column_name), SlotSet("GPE", countries), "DATE", year]
+
+
+class ActionHealthDevelopment(Action):
+    def name(self) -> str:
+        return "action_health_development"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
+
+        column_name = tracker.get_slot("column_name")
+        countries = tracker.get_slot("GPE")
+
+        country = countries[0]
+        columns = data.columns.tolist()
+
+        match, score = process.extractOne(column_name, columns)
+
+        filtered_data = data[data["Country"] == country]
+
+        year_values = filtered_data[["Year", match]].dropna().values.tolist()
+
+        message = f"Here are the values for {match} in {country} across all years:\n"
+        for year, value in year_values:
+            message += f"- {year}: {value:.2f}\n"
+
+        dispatcher.utter_message(text=message)
+
+        return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]
+

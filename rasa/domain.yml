@@ -47,6 +47,8 @@ actions:
   - action_calculate_column_stat
   - action_country_specific
   - action_country_comparison
+  - action_health_development
+  - action_health_year
 
 slots:
   column_name:
