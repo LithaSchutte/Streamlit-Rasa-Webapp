@@ -56,10 +56,11 @@ slots:
       - type: from_entity
         entity: value_action
   GPE:
-    type: text
+    type: list
     mappings:
       - type: from_entity
         entity: GPE
+
 
 entities:
   - column_name

@@ -1,39 +1,10 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/custom-actions
-
-
-# This is a simple example for a custom action which utters "Hello World!"
-
-# from typing import Any, Text, Dict, List
-#
-# from rasa_sdk import Action, Tracker
-# from rasa_sdk.executor import CollectingDispatcher
-#
-#
-# class ActionHelloWorld(Action):
-#
-#     def name(self) -> Text:
-#         return "action_hello_world"
-#
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#
-#         dispatcher.utter_message(text="Hello World!")
-#
-#         return []
-from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import pandas as pd
 from fuzzywuzzy import process
 
-# Load your dataset
-DATA_PATH = "../global_health.csv"
+DATA_PATH = "../data/global_health.csv"
 
 try:
     data = pd.read_csv(DATA_PATH)
@@ -41,14 +12,6 @@ try:
 except FileNotFoundError:
     print(f"File not found!")
 
-# class ActionMeanLifeExpectancy(Action):
-#     def name(self) -> Text:
-#         return "action_mean_life_expectancy"
-#
-#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#         mean_life_expectancy = data["Life_Expectancy"].mean()
-#         dispatcher.utter_message(text=f"The mean life expectancy across all countries is {mean_life_expectancy:.2f} years.")
-#         return []
 class ActionGetCountryData(Action):
     def name(self) -> str:
         return "action_country_specific"
