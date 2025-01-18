@@ -29,28 +29,23 @@ def fill_mice(dataset):
     imputed_data = pd.DataFrame(mice.fit_transform(dataset), columns=dataset.columns)
     return imputed_data
 
-def remove_outliers(dataset, excluded):
-    for column in dataset.select_dtypes(include=['number']).columns:
-        if column in excluded:
-            continue
-        Q1 = dataset[column].quantile(0.25)
-        Q3 = dataset[column].quantile(0.75)
-        IQR = Q3 - Q1
+def handle_outliers(dataset, threshold):
+    for column in dataset.columns:
+        mean = dataset[column].mean()
+        std_dev = dataset[column].std()
 
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
+        def cap_outlier(value):
+            z_score = (value - mean) / std_dev
+            if z_score > threshold:
+                return mean + threshold * std_dev
+            elif z_score < -threshold:
+                return mean - threshold * std_dev
+            return value
 
-        dataset = dataset[(dataset[column] >= lower_bound) & (dataset[column] <= upper_bound)]
+        dataset[column] = dataset[column].apply(cap_outlier)
 
     return dataset
 
-def remove_outliers_zscore(dataset, threshold, excluded):
-    for column in dataset.select_dtypes(include=['number']).columns:
-        if column in excluded:
-            continue
-        z_scores = (dataset[column] - dataset[column].mean()) / dataset[column].std()
-        dataset[column] = dataset[column].apply(lambda x: dataset[column].max() if abs((x - dataset[column].mean()) / dataset[column].std()) > threshold else x)
-    return dataset
 
 def normalize(dataset):
     scaler = StandardScaler()

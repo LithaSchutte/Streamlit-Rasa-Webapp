@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
-from normalization import drop_columns, fill_mice, fill_knn, fill_mean, normalize
+from normalization import drop_columns, fill_mice, fill_knn, fill_mean, normalize, handle_outliers
 from AppClass import DataLoader  # Import the DataLoader class
 
 st.set_page_config(layout="wide")
@@ -68,6 +68,15 @@ if regenerate_button:
     fake_data.to_csv("data/fake_data.csv", index=False)
     combined_data.to_csv('data/real_data_with_added_fake_data.csv', index=False)
 
+    to_drop = ["Water_Access_Percent", "Hospital_Beds_Per_1000", "Suicide_Rate_Percent", "Country_Code", "Country",
+               "Year", "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
+               "Life_Expectancy_Male", "Female_Population", "Male_Population", "Total_Population", "Infant_Deaths"]
+
+    clean_fake_data = drop_columns(combined_data, to_drop)
+    filled_clean_fake_data = fill_mice(clean_fake_data)
+    clean_fake_data_outliers = handle_outliers(filled_clean_fake_data, 3)
+    clean_fake_data_outliers.to_csv("data/clean_fake_data.csv", index=False)
+
 if fake_data is not None:
     if full_button:
         fake_data_loader = DataLoader(fake_data_file)
@@ -99,7 +108,7 @@ Once the dataset is refined, further transformations are applied:
 fill_value_option = ["MICE", "Mean", "KNN"]
 
 columns_to_drop = ["CO2_Exposure_Percent","Total_Population", "Labour_Force_Total","Water_Access_Percent", "Country_Code", "Country", "Life_Expectancy_Female",
-                   "Life_Expectancy_Male", "Female_Population", "Male_Population", "Suicide_Rate_Percent", "Hospital_Beds_Per_1000"]
+                   "Life_Expectancy_Male", "Female_Population", "Male_Population", "Suicide_Rate_Percent", "Hospital_Beds_Per_1000", "Infant_Deaths"]
 
 if "selected_algorithm" not in st.session_state:
     st.session_state.selected_algorithm = fill_value_option[0]  # Default to "MICE"

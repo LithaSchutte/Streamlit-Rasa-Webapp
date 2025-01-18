@@ -8,3 +8,4 @@ normalized_global_health.csv
 real_data_with_added_fake_data.csv
 .rasa
 models
+clean_fake_data.csv

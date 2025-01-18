@@ -1,8 +1,16 @@
 import streamlit as st
 from AppClass import RegressionLayout, RegressionModels
 
-file_path = "data/clean_data.csv"
+# file_path = "data/clean_data.csv"
 target_feature = "Life_Expectancy"
+
+file_paths = {
+    "Clean Data": "data/clean_data.csv",
+    "Added Fake Data": "data/clean_fake_data.csv"
+}
+
+selected_file = st.radio("Select a file for the dataset:", list(file_paths.keys()))
+file_path = file_paths[selected_file]
 
 regression_model = RegressionModels(path=file_path, target=target_feature)
 

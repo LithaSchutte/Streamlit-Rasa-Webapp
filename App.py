@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
-from normalization import drop_columns, fill_mice, normalize
+from normalization import drop_columns, fill_mice, normalize, handle_outliers
 import plotly.express as px
 from AppClass import DataLoader
 import time
@@ -63,11 +63,20 @@ if not os.path.isfile('data/fake_data.csv') and not os.path.isfile('data/real_da
     progress_bar.progress(75)  # Update progress bar
     time.sleep(1)  # Simulate some processing time
 
-if not os.path.isfile('data/normalized.csv') and not os.path.isfile('data/clean_data.csv'):
+    to_drop = ["Water_Access_Percent", "Hospital_Beds_Per_1000", "Suicide_Rate_Percent", "Country_Code", "Country",
+               "Year", "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
+               "Life_Expectancy_Male", "Female_Population", "Male_Population", "Total_Population", "Infant_Deaths"]
+
+    clean_fake_data = drop_columns(added_fake_data, to_drop)
+    filled_clean_fake_data = fill_mice(clean_fake_data)
+    clean_fake_data_outliers = handle_outliers(filled_clean_fake_data, 3)
+    clean_fake_data_outliers.to_csv("data/clean_fake_data.csv", index=False)
+
+if not os.path.isfile('data/clean_data.csv'):
     # Columns to drop
     to_drop = ["Water_Access_Percent", "Hospital_Beds_Per_1000", "Suicide_Rate_Percent", "Country_Code", "Country",
                "Year", "Labour_Force_Total", "CO2_Exposure_Percent", "Unemployment_Rate", "Life_Expectancy_Female",
-               "Life_Expectancy_Male", "Female_Population", "Male_Population", "Total_Population"]
+               "Life_Expectancy_Male", "Female_Population", "Male_Population", "Total_Population", "Infant_Deaths"]
 
     cleaned_data = drop_columns(original_data, to_drop)
     progress_bar.progress(85)  # Update progress bar
@@ -77,7 +86,8 @@ if not os.path.isfile('data/normalized.csv') and not os.path.isfile('data/clean_
     progress_bar.progress(90)  # Update progress bar
     time.sleep(1)  # Simulate some processing time
 
-    filled_data.to_csv('data/clean_data.csv', index=False)
+    filled_data_outliers = handle_outliers(filled_data, 3)
+    filled_data_outliers.to_csv('data/clean_data.csv', index=False)
     progress_bar.progress(100)  # Final progress bar update
     time.sleep(1)  # Simulate final processing time
     st.write("Data generation and cleaning complete!")
