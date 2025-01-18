@@ -12,6 +12,7 @@ intents:
   - finance
   - column_stat
   - find_country
+  - compare_countries
 
 responses:
   utter_greet:
@@ -43,6 +44,7 @@ responses:
 actions:
   - action_calculate_column_stat
   - action_country_specific
+  - action_country_comparison
 
 slots:
   column_name:

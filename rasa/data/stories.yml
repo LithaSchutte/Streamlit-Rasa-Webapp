@@ -55,14 +55,7 @@ stories:
     - intent: find_country
     - action: action_country_specific
 
-
-- story: compare countries
-
-
-- story:
-
-
-- story:
-
-
-- story:
+- story: Compare Countries
+  steps:
+    - intent: compare_countries
+    - action: action_country_comparison

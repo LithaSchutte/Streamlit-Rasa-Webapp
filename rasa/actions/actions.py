@@ -25,11 +25,9 @@ class ActionGetCountryData(Action):
             return []
 
         if len(geo_country) == 1:
-            dispatcher.utter_message(text=f"The selected country is {geo_country}")
+            dispatcher.utter_message(text=f"The selected countries are: {geo_country[0]} and the len is {len(geo_country)}.")
         else:
-            country_list = ", ".join(geo_country[:-1]) + f", and {geo_country[-1]}"
-            dispatcher.utter_message(text=f"The selected countries are: {country_list}.")
-
+            dispatcher.utter_message(text=f"The selected countries are: {geo_country[0]} and {geo_country[1]} and the len is {len(geo_country)}.")
         return [SlotSet("GPE", geo_country)]
 
 
@@ -68,3 +66,24 @@ class ActionGetAverage(Action):
         # Simulate processing the column name
         dispatcher.utter_message(text=f"The {value_action} for {match} is {result}")
         return [SlotSet("column_name", column_name), SlotSet("value_action", value_action)]
+
+class ActionCompareCountries(Action):
+    def name(self) -> str:
+        return "action_country_comparison"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
+        column_name = tracker.get_slot("column_name")
+
+        columns = data.columns.tolist()
+        match, score = process.extractOne(column_name, columns)
+
+        countries = tracker.get_slot("GPE")
+
+        value_1 = data[(data['Country'] == countries[0]) & (data['Year'] == 2021)][match].iloc[0]
+        value_2 = data[(data['Country'] == countries[1]) & (data['Year'] == 2021)][match].iloc[0]
+
+        message = f"In 2021 the {match} of {countries[0]} was {value_1} and the {match} of {countries[1]} was {value_2}"
+
+        dispatcher.utter_message(text=message)
+
+        return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]

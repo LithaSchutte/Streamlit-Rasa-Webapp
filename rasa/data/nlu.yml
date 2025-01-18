@@ -181,6 +181,24 @@ nlu:
     - Do you have data on Mexico?
     - What do you know about Zambia?
 
+- intent: compare_countries
+  examples: |
+    - Can you compare [fertility rate](column_name) for Germany and the Congo?
+    - What is the difference in [unemployment rate](column_name) in Italy and Zimbabwe?
+      - Can you compare [safe water access](column_name) in Mexico and Russia?
+    - What is the [overweight rate](column_name) in the US compared to South Africa?
+    - How do [sanitary expense per capita](column_name) levels in Canada and Australia differ?
+    - Compare the [air pollution](column_name) of China and the UK.
+    - What's the [life expectancy](column_name) in the US versus France?
+    - How do the [suicide rate](column_name) in the UK and Italy compare?
+    - What’s the difference in [urban population](column_name) between South Korea and Argentina?
+    - Can you show the difference in [alcohol consumption](column_name) for India and Brazil?
+    - Compare the [unemployment rates](column_name) in Spain and Greece.
+    - How does the [labor force](column_name) in Germany compare to Japan?
+    - What is the [obesity](column_name) in Canada versus Mexico?
+    - What is the [tuberculosis](column_name) in South Korea compared to the Philippines?
+    - Can you show the difference in [immunization rate](column_name) between the USA and Canada?
+
 - synonym: mean
   examples: |
     - average
