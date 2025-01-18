@@ -90,11 +90,11 @@ class ActionCompareCountries(Action):
 
 class ActionHealthByYear(Action):
     def name(self) -> str:
-        return "action_health_by_year"
+        return "action_health_year"
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
         column_name = tracker.get_slot("column_name")
-        year = tracker.get_slot("DATE")
+        year = int(tracker.get_slot("DATE"))
 
         columns = data.columns.tolist()
         match, score = process.extractOne(column_name, columns) # match = column

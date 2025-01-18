@@ -66,6 +66,11 @@ slots:
     mappings:
       - type: from_entity
         entity: GPE
+  DATE:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: DATE
 
 
 entities:
