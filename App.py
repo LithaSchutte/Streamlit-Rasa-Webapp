@@ -77,9 +77,6 @@ if not os.path.isfile('data/normalized.csv') and not os.path.isfile('data/clean_
     progress_bar.progress(90)  # Update progress bar
     time.sleep(1)  # Simulate some processing time
 
-    normalized_data = normalize(filled_data)
-
-    normalized_data.to_csv('data/normalized.csv', index=False)
     filled_data.to_csv('data/clean_data.csv', index=False)
     progress_bar.progress(100)  # Final progress bar update
     time.sleep(1)  # Simulate final processing time

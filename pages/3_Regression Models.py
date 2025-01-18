@@ -4,9 +4,9 @@ from matplotlib import pyplot as plt
 
 from AppClass import RegressionLayout, RegressionModels, DataLoader
 
-file_path = "clean_data.csv"
+file_path = "data/clean_data.csv"
 target_feature = "Life_Expectancy"
-data_loader = DataLoader("global_health.csv", cache_data=True)
+data_loader = DataLoader("data/global_health.csv", cache_data=True)
 df = data_loader.load_data()
 layout = RegressionLayout()
 layout.run()

@@ -8,7 +8,7 @@ from AppClass import DataLoader  # Import the DataLoader class
 st.set_page_config(layout="wide")
 
 # Title and Description
-st.title("data Processing")
+st.title("Data Processing")
 st.write("""### Synthetic data Generation
 The application also allows for the generation of **synthetic data**:
 - **Why Generate Synthetic data?**
@@ -25,11 +25,11 @@ st.write("Sample of the synthetic data:")
 
 progress_placeholder = st.empty()
 
-data_loader = DataLoader('../data/global_health.csv')
+data_loader = DataLoader('data/global_health.csv')
 
 real_data = data_loader.load_data()
 
-fake_data_file = '../data/fake_data.csv'
+fake_data_file = 'data/fake_data.csv'
 
 data_placeholder = st.empty()
 
@@ -65,8 +65,8 @@ if regenerate_button:
 
     data_placeholder.dataframe(fake_data.head())
 
-    fake_data.to_csv(fake_data_file, index=False)
-    combined_data.to_csv('../data/real_data_with_added_fake_data.csv', index=False)
+    fake_data.to_csv("data/fake_data.csv", index=False)
+    combined_data.to_csv('data/real_data_with_added_fake_data.csv', index=False)
 
 if fake_data is not None:
     if full_button:
@@ -83,13 +83,13 @@ To ensure optimal performance and a clean dataset, some columns are dropped base
 
 - **Dropped Columns**:
   - `Life_Expectancy_Female` and `Life_Expectancy_Male` were removed because they overlap conceptually with the target variable, `Life_Expectancy`.
-  - Features with **low correlation** to the target variable, such as `Country`, 'Country_Code`, `Hospital_Beds_Per_1000`, `Labour_Force_Total` and `Suicide_Rate`, were excluded to reduce noise.
+  - Features with **low correlation** to the target variable, such as `Country`, `Country_Code`, `Hospital_Beds_Per_1000`, `Labour_Force_Total` and `Suicide_Rate`, were excluded to reduce noise.
   - Columns like `CO2_Exposure_Percent` were redundant, as they were identical to other features (e.g., `Air_Pollution`).
   - `Water_Access_Percent` had a high number of missing values and conceptually overlapped with `Safe_Water_Access_Percent`, which was retained for better representation.
 
 This reduces unnecessary data, making the dataset more efficient for analysis and modeling.""")
 
-st.write("""### data Transformation
+st.write("""### Data Transformation
 Once the dataset is refined, further transformations are applied:
 - **Handling Missing Values**: As a user you can select from three methods to fill missing data:
   - `Mean`: Simple average replacement, effective when data is missing at random.
@@ -113,6 +113,7 @@ selected_algorithm = st.radio(
 
 if selected_algorithm != st.session_state.selected_algorithm:
     st.session_state.selected_algorithm = selected_algorithm
+    st.rerun()
 
 df = drop_columns(real_data, columns_to_drop)
 
@@ -127,9 +128,4 @@ elif st.session_state.selected_algorithm == "MICE":
 st.write("Clean data with missing data filled")
 st.write(df)
 
-df.to_csv("../data/clean_data.csv", index=False)
-
-df = normalize(df)
-st.write("Normalized data")
-st.write(df)
-df.to_csv("../data/normalized.csv", index=False)
+df.to_csv("data/clean_data.csv", index=False)

@@ -1,7 +1,7 @@
 import streamlit as st
 from AppClass import RegressionLayout, RegressionModels
 
-file_path = "clean_data.csv"
+file_path = "data/clean_data.csv"
 target_feature = "Life_Expectancy"
 
 regression_model = RegressionModels(path=file_path, target=target_feature)

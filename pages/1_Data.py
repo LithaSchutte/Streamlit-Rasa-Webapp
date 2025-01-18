@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 
 st.title("Data Viewer and Insights")
 
-options = ["Original data", "Processed data", "Data with Added Synthetic data"]
+options = ["Original Data", "Processed Data", "Data with Added Synthetic Data"]
 
 selected_option = st.radio(
     "Select a dataset to display:",
@@ -15,9 +15,9 @@ selected_option = st.radio(
     horizontal=True)
 
 file_mapping = {
-    "Original data": "data/global_health.csv",
-    "Processed data": "data/clean_data.csv",
-    "Data with Added Synthetic data": "data/real_data_with_added_fake_data.csv"
+    "Original Data": "data/global_health.csv",
+    "Processed Data": "data/clean_data.csv",
+    "Data with Added Synthetic Data": "data/real_data_with_added_fake_data.csv"
 }
 
 # data file to load based on user selection
@@ -27,7 +27,7 @@ data_file = file_mapping.get(selected_option)
 data_placeholder = st.empty()
 
 # Reload data on each selection
-if selected_option == "Data with Added Synthetic data":
+if selected_option == "Data with Added Synthetic Data":
     fake_data_loader = DataLoader(data_file, cache_data=False)
     data = fake_data_loader.load_data()
 elif selected_option == "Processed Data":
@@ -52,7 +52,7 @@ if not data.empty:
     st.markdown("---")
     st.write("### Data Correlation")
 
-    if selected_option == "Processed data":
+    if selected_option == "Processed Data":
         # Normalized data View Options
         view_options = ["Table View", "Graph View"]
         selected_view = st.radio(
@@ -94,7 +94,7 @@ if not data.empty:
 
 
     st.write("## Data Visualization")
-    if selected_option == "Original Data" or selected_option == "Data with Added Synthetic data":
+    if selected_option == "Original Data" or selected_option == "Data with Added Synthetic Data":
 
         default_countries = ['Germany', 'Italy', 'United States', 'Canada']
 
@@ -170,7 +170,7 @@ if not data.empty:
         else:
             st.write("Please select at least one country for comparison.")
     else:
-        st.warning("Data Visualisation is not possible for Processed data because features are altered or dropped")
+        st.warning("Data Visualisation is not possible for Processed Data because features are altered or dropped")
 
 else:
     st.error("The dataset is empty or could not be loaded.")
