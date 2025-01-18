@@ -13,6 +13,8 @@ intents:
   - column_stat
   - find_country
   - compare_countries
+  - health_by_year
+  - health_development
 
 responses:
   utter_greet:
@@ -68,6 +70,7 @@ entities:
   - column_name
   - value_action
   - GPE
+  - DATE
 
 
 session_config:

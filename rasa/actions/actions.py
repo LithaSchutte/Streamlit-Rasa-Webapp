@@ -82,7 +82,7 @@ class ActionCompareCountries(Action):
         value_1 = data[(data['Country'] == countries[0]) & (data['Year'] == 2021)][match].iloc[0]
         value_2 = data[(data['Country'] == countries[1]) & (data['Year'] == 2021)][match].iloc[0]
 
-        message = f"In 2021 the {match} of {countries[0]} was {value_1} and the {match} of {countries[1]} was {value_2}"
+        message = f"In 2021 the {match} of {countries[0]} was {value_1:.2f} and the {match} of {countries[1]} was {value_2:.2f}"
 
         dispatcher.utter_message(text=message)
 

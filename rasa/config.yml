@@ -28,7 +28,7 @@ pipeline:
     epochs: 100
     constrain_similarities: true
   - name: SpacyEntityExtractor
-    dimensions: ["GPE"]
+    dimensions: ["GPE", "DATE"]
   - name: EntitySynonymMapper
 
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.

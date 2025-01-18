@@ -185,7 +185,7 @@ nlu:
   examples: |
     - Can you compare [fertility rate](column_name) for Germany and the Congo?
     - What is the difference in [unemployment rate](column_name) in Italy and Zimbabwe?
-      - Can you compare [safe water access](column_name) in Mexico and Russia?
+    - Can you compare [safe water access](column_name) in Mexico and Russia?
     - What is the [overweight rate](column_name) in the US compared to South Africa?
     - How do [sanitary expense per capita](column_name) levels in Canada and Australia differ?
     - Compare the [air pollution](column_name) of China and the UK.
@@ -198,6 +198,56 @@ nlu:
     - What is the [obesity](column_name) in Canada versus Mexico?
     - What is the [tuberculosis](column_name) in South Korea compared to the Philippines?
     - Can you show the difference in [immunization rate](column_name) between the USA and Canada?
+
+- intent: health_by_year
+  examples: |
+    - What is the trend for [unemployment rate](column_name) in Germany in 2014?
+    - What was the [fertility rate](column_name) in Italy in 2015?
+    - What was the [unemployment rate](column_name) in Spain in 2016?
+    - Can you show the trend in [life expectancy](column_name) for the UK in 2017?
+    - What is the [alcohol consumption](column_name) trend in Brazil in 2018?
+    - How has the [air pollution](column_name) in China changed in 2019?
+    - What was the [urban population](column_name) in the USA in 2020?
+    - Can you describe the trend in [sanitary expense per capita](column_name) in Canada in 2021?
+    - Give the [obesity rate](column_name) in South Africa in 2012
+    - What is the trend in [safe water access](column_name) in Mexico in 2013?
+    - Can you show the change in [tuberculosis](column_name) rates in the Philippines in 2014?
+    - Show the [immunization rate](column_name) in the US in 2020?
+    - What was the [suicide rate](column_name) in Italy in 2016
+    - What is the trend for [obesity](column_name) in Canada in 2018?
+    - Can you describe the [labor force](column_name) in Japan in 2021?
+    - How has the [fertility rate](column_name) in South Korea evolved in in 2017?
+    - What is the trend in [air pollution](column_name) levels in the UK in 2015?
+
+- intent: health_development
+  examples: |
+    - How has the [fertility rate](column_name) in Germany changed?
+    - Explain the development of [air pollution](column_name) in Japan.
+    - Can you describe the tendency of [immunization rate](column_name) in the United States?
+    - What has been the progression of [obesity rate](column_name) in Canada?
+    - How has the [life expectancy](column_name) in the UK evolved?
+    - Tell me about the development of [sanitation access](column_name) in India.
+    - What changes have occurred in the [suicide rate](column_name) in South Korea?
+    - How has the [unemployment rate](column_name) developed in Spain?
+    - Can you explain the trend in [alcohol consumption](column_name) in Australia?
+    - How has [CO2 exposure](column_name) developed in China?
+    - What has been the shift in the [urban population](column_name) of Brazil?
+    - Describe the development of [tuberculosis](column_name) rates in the Philippines.
+    - How has [hospital bed availability](column_name) changed in the United Kingdom?
+    - Tell me about the evolution of [water access](column_name) in Mexico.
+    - How has the [GDP per capita](column_name) in South Africa evolved?
+    - Explain the development of [safe water access](column_name) in Serbia.
+    - Can you describe the trend in [total labor force](column_name) in Japan?
+    - How has [education expenditure](column_name) evolved in Brazil?
+    - Can you explain how the [tuberculosis rate](column_name) has changed in Europe?
+    - What trends have been observed in [immunization rates](column_name) in the US?
+    - What is the progression of [sanitation expense per capita](column_name) in Canada?
+    - Can you describe the trend in [obesity rates](column_name) in Mexico?
+    - How has [infant mortality](column_name) developed in Poland?
+    - What changes have been observed in [hospital beds per 1000 people](column_name) in Japan?
+    - Tell me about the change in [air quality](column_name) in Europe.
+    - How has [public health expenditure](column_name) in Germany evolved?
+    - What is the trend of [alcohol consumption](column_name) in Russia?
 
 - synonym: mean
   examples: |
