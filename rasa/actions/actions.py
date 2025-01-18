@@ -24,7 +24,12 @@ class ActionGetCountryData(Action):
                 text="I didn't understand the country name. Can you please specify the country that you meant?")
             return []
 
-        dispatcher.utter_message(text=f"The selected country is {geo_country}")
+        if len(geo_country) == 1:
+            dispatcher.utter_message(text=f"The selected country is {geo_country}")
+        else:
+            country_list = ", ".join(geo_country[:-1]) + f", and {geo_country[-1]}"
+            dispatcher.utter_message(text=f"The selected countries are: {country_list}.")
+
         return [SlotSet("GPE", geo_country)]
 
 
