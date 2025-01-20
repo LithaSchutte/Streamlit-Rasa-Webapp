@@ -249,6 +249,20 @@ nlu:
     - How has [public health expenditure](column_name) in Germany evolved?
     - What is the trend of [alcohol consumption](column_name) in Russia?
 
+- intent: get_correlation
+  examples: |
+    - What is the correlation of life expectancy with [urban population](topic)?
+    - Can you explain the correlation between life expectancy and [sanitary expense](topic)?
+    - How does [safe water access](topic) correlate with life expectancy?
+    - Tell me the [immunization rate](topic) correlation with the life expectancy
+    - Correlation of [air pollution](topic) with life expectancy?
+    - I want to know about the correlation with [sanitary expense](topic)
+    - [Immunization rate](topic) correlation
+    - What is the relationship between [air pollution](topic) and life expectancy?
+    - Can you provide details connection between [urban population](topic) and life expectancy?
+    - Explain how [sanitary expense](topic) links to life expectancy
+    - I want to learn about [safe water access](topic) and life expectancy
+
 - synonym: mean
   examples: |
     - average

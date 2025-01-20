@@ -15,6 +15,7 @@ intents:
   - compare_countries
   - health_by_year
   - health_development
+  - get_correlation
 
 responses:
   utter_greet:
@@ -49,6 +50,7 @@ actions:
   - action_country_comparison
   - action_health_development
   - action_health_year
+  - action_get_correlation
 
 slots:
   column_name:
@@ -71,6 +73,11 @@ slots:
     mappings:
       - type: from_entity
         entity: DATE
+  topic:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: topic
 
 
 entities:
@@ -78,6 +85,7 @@ entities:
   - value_action
   - GPE
   - DATE
+  - topic
 
 
 session_config:

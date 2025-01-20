@@ -69,3 +69,8 @@ stories:
   steps:
     - intent: health_development
     - action: action_health_development
+
+- story: correlation explanation
+  steps:
+    - intent: get_correlation
+    - action: action_get_correlation

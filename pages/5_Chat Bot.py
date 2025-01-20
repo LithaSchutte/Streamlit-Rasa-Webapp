@@ -9,7 +9,13 @@ st.title("Rasa Test")
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "Hello! How can I assist you today?"}
+        {"role": "assistant",
+         "content": "Hello and welcome to the app.\n"
+                    "I can assist you in the following ways:\n"
+                    "- Provide insights into global health data such as the average, minimum or maximum\n"
+                    "- Compare health factors of different countries over a span of 10 years\n"
+	                "- Explore the correlations between different health indicators\n"
+	                "\nPlease tell me which of these tasks I can assist you with. Or did you have something else in mind?"}
     ]
 
 # Display previous chat messages

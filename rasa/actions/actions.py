@@ -3,6 +3,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import pandas as pd
 from fuzzywuzzy import process
+import json
 
 DATA_PATH = "../data/global_health.csv"
 
@@ -135,4 +136,29 @@ class ActionHealthDevelopment(Action):
         dispatcher.utter_message(text=message)
 
         return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]
+
+class ActionGetCorrelation(Action):
+    def name(self) -> str:
+        return "action_get_correlation"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker, domain):
+
+        # Load responses from the JSON file
+        try:
+            with open("responses.json", "r") as file:
+                responses = json.load(file)
+        except Exception as e:
+            dispatcher.utter_message(text="Sorry, I couldn't load the responses.")
+            return []
+
+        # Extract the topic entity
+        topic = tracker.get_slot('topic')
+
+        if topic and topic in responses:
+            # Send the corresponding response
+            dispatcher.utter_message(text=responses[topic])
+        else:
+            dispatcher.utter_message(text="I don't have information on that topic.")
+
+        return []
 
