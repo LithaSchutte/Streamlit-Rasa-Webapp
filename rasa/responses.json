@@ -4,7 +4,7 @@
   "fertility rate": "Fertility rate has a strong negative correlation with life expectancy. This is because for a higher fertility rate, with  the same population size, it would imply a higher mortality rate. In addition, it's more common for developed countries to have high fertility rates and more often than not, developed countries tend to have low fertility rates.",
   "urban population percent": "Urban population percentage has a strong positive correlation with life expectancy, even though urbanisation contributes to health risk factors, it also implies better access to healthcare.",
   "total population": "There is no strong correlation between the total population size and life expectancy.",
-  "water access percent": "Water access has a strong positive correlation with life expectancy, ",
+  "water access percent": "Water access has a strong positive correlation with life expectancy.",
   "unemployment rate": "Unemployment rate has a relatively low correlation with life expectancy, as the global average is not very high at 5%",
   "sanitary expense per GDP": "Sanitary expenses as a percentage of GDP have a positive correlation with life expectancy, as higher spending typically reflects better infrastructure and access to sanitation facilities.",
   "female life expectancy": "Female life expectancy and general life expectancy is interconnected, and therefore the correlation is very strong, with female life expectancy tending to be a few years above the average.",
