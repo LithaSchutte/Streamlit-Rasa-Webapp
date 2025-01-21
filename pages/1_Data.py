@@ -86,7 +86,8 @@ if not data.empty:
                 cmap="coolwarm",
                 fmt=".2f",
                 linewidths=0.5,
-                ax=ax
+                ax=ax,
+                annot_kws={"size": 8}
             )
             st.pyplot(fig)
     else:
