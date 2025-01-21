@@ -11,7 +11,6 @@ intents:
   - advice
   - finance
   - column_stat
-  - find_country
   - compare_countries
   - health_by_year
   - health_development
@@ -46,7 +45,6 @@ responses:
 
 actions:
   - action_calculate_column_stat
-  - action_country_specific
   - action_country_comparison
   - action_health_development
   - action_health_year
@@ -73,11 +71,6 @@ slots:
     mappings:
       - type: from_entity
         entity: DATE
-  topic:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: topic
 
 
 entities:
@@ -85,7 +78,6 @@ entities:
   - value_action
   - GPE
   - DATE
-  - topic
 
 
 session_config:

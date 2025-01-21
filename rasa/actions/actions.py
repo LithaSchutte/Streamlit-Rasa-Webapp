@@ -13,60 +13,53 @@ try:
 except FileNotFoundError:
     print(f"File not found!")
 
-class ActionGetCountryData(Action):
-    def name(self) -> str:
-        return "action_country_specific"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
-        geo_country = tracker.get_slot("GPE")
-
-        if not geo_country:
-            dispatcher.utter_message(
-                text="I didn't understand the country name. Can you please specify the country that you meant?")
-            return []
-
-        if len(geo_country) == 1:
-            dispatcher.utter_message(text=f"The selected countries are: {geo_country[0]} and the len is {len(geo_country)}.")
-        else:
-            dispatcher.utter_message(text=f"The selected countries are: {geo_country[0]} and {geo_country[1]} and the len is {len(geo_country)}.")
-        return [SlotSet("GPE", geo_country)]
-
 
 class ActionGetAverage(Action):
     def name(self) -> str:
         return "action_calculate_column_stat"
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
-        # Get the column name from the slot
+        # Get the column name and action from the slots
         column_name = tracker.get_slot("column_name")
         value_action = tracker.get_slot("value_action")
 
         if not value_action:
             dispatcher.utter_message(
-                text="I need to know whether you want the 'min', 'max', or 'mean' value. Can you specify?")
+                text="I need to know whether you want the 'minimum', 'maximum', or 'mean' value. Can you specify?")
             return []
 
+        # Validate column name
         columns = data.columns.tolist()
-        match, score = process.extractOne(column_name, columns)
+        match, score = process.extractOne(column_name, columns) if column_name else (None, 0)
 
-        if value_action == "mean":
-            result = data[match].mean()
-        elif value_action == "min":
-            result = data[match].min()
-        elif value_action == "max":
-            result = data[match].max()
-        else:
+        if score < 80 or not match:
+            suggestions = ", ".join(columns[:5])  # Limit to the first 5 for brevity
             dispatcher.utter_message(
-                text=f"I can only calculate 'min', 'max', or 'mean'. You requested '{value_action}'.")
-            return []
+                text=f"I couldn't understand the column name '{column_name}'. "
+                     f"Please provide a valid column name. Here are some suggestions: {suggestions}")
+            return [SlotSet("column_name", None)]  # Clear invalid column_name slot
 
-        if not column_name:
-            dispatcher.utter_message(text="I couldn't understand the column name. Can you clarify?")
-            return []
+        # Validate value_action
+        if value_action not in ["mean", "minimum", "maximum"]:
+            dispatcher.utter_message(
+                text=f"I can only calculate the 'minimum', 'maximum', or 'mean'. You requested '{value_action}'.")
+            return [SlotSet("value_action", None)]  # Clear invalid value_action slot
 
-        # Simulate processing the column name
-        dispatcher.utter_message(text=f"The {value_action} for {match} is {result}")
-        return [SlotSet("column_name", column_name), SlotSet("value_action", value_action)]
+        # Perform the calculation
+        try:
+            if value_action == "mean":
+                result = data[match].mean()
+            elif value_action == "minimum":
+                result = data[match].min()
+            elif value_action == "maximum":
+                result = data[match].max()
+
+            dispatcher.utter_message(text=f"The {value_action} for '{match}' is {result}")
+            return [SlotSet("column_name", match), SlotSet("value_action", value_action)]
+        except Exception as e:
+            dispatcher.utter_message(
+                text=f"An error occurred while processing your request: {str(e)}")
+            return []
 
 class ActionCompareCountries(Action):
     def name(self) -> str:
@@ -152,13 +145,13 @@ class ActionGetCorrelation(Action):
             return []
 
         # Extract the topic entity
-        topic = tracker.get_slot('topic')
+        column_name = tracker.get_slot('column_name')
 
-        if topic and topic in responses:
+        if column_name and column_name in responses:
             # Send the corresponding response
-            dispatcher.utter_message(text=responses[topic])
+            dispatcher.utter_message(text=responses[column_name])
         else:
             dispatcher.utter_message(text="I don't have information on that topic.")
 
-        return []
+        return [SlotSet("column_name", column_name)]
 
