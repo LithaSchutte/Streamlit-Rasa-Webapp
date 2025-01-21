@@ -21,7 +21,7 @@ user experience.
 ### Key Features
 - Get insights into data statistics
 - Explore data visualisations with charts and graphs
-- Compare between countries
+- Compare countries
 - Learn how the data was preprocessed
 - Discover of the effect of synthetic data
 - Predict life expectancy with regression
