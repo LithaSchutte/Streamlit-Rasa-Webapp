@@ -56,7 +56,7 @@ def handle_outliers(dataset, threshold):
 
         dataset[column] = dataset[column].apply(cap_outlier)
 
-    return dataset, outliers
+    return dataset
 
 
 
