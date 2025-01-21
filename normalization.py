@@ -25,11 +25,21 @@ def fill_knn(dataset):
     return imputed_data
 
 def fill_mice(dataset):
-    mice = IterativeImputer(max_iter=10, random_state=0)
+    column_bounds = {col: (dataset[col].min(skipna=True), dataset[col].max(skipna=True)) for col in dataset.columns}
+
+    # Configure and apply the Iterative Imputer
+    mice = IterativeImputer(max_iter=20, random_state=0)
     imputed_data = pd.DataFrame(mice.fit_transform(dataset), columns=dataset.columns)
+
+    # Clip imputed values to the bounds of each column
+    for col, (min_val, max_val) in column_bounds.items():
+        imputed_data[col] = imputed_data[col].clip(lower=min_val, upper=max_val)
+
     return imputed_data
 
 def handle_outliers(dataset, threshold):
+    outliers = []  # To store all outliers with column names
+
     for column in dataset.columns:
         mean = dataset[column].mean()
         std_dev = dataset[column].std()
@@ -37,14 +47,18 @@ def handle_outliers(dataset, threshold):
         def cap_outlier(value):
             z_score = (value - mean) / std_dev
             if z_score > threshold:
+                outliers.append((column, value))
                 return mean + threshold * std_dev
             elif z_score < -threshold:
+                outliers.append((column, value))
                 return mean - threshold * std_dev
             return value
 
         dataset[column] = dataset[column].apply(cap_outlier)
 
-    return dataset
+    return dataset, outliers
+
+
 
 
 def normalize(dataset):

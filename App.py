@@ -69,7 +69,8 @@ if not os.path.isfile('data/fake_data.csv') and not os.path.isfile('data/real_da
 
     clean_fake_data = drop_columns(added_fake_data, to_drop)
     filled_clean_fake_data = fill_mice(clean_fake_data)
-    clean_fake_data_outliers = handle_outliers(filled_clean_fake_data, 3)
+    clean_fake_data_outliers, outliers = handle_outliers(filled_clean_fake_data, 3)
+    st.write(outliers)
     clean_fake_data_outliers.to_csv("data/clean_fake_data.csv", index=False)
 
 if not os.path.isfile('data/clean_data.csv'):
@@ -86,7 +87,8 @@ if not os.path.isfile('data/clean_data.csv'):
     progress_bar.progress(90)  # Update progress bar
     time.sleep(1)  # Simulate some processing time
 
-    filled_data_outliers = handle_outliers(filled_data, 3)
+    filled_data_outliers, outliers = handle_outliers(filled_data, 3)
+    st.write(outliers)
     filled_data_outliers.to_csv('data/clean_data.csv', index=False)
     progress_bar.progress(100)  # Final progress bar update
     time.sleep(1)  # Simulate final processing time
