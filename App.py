@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
-from normalization import drop_columns, fill_mice, normalize, handle_outliers
+from normalization import drop_columns, fill_mice, handle_outliers
 import plotly.express as px
 from AppClass import DataLoader
 import time

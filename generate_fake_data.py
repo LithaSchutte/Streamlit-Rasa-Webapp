@@ -33,9 +33,6 @@ def generate_fake_row(df, country_code_pairs, columns_to_randomize):
         min_val, max_val = df[column].quantile([0.05, 0.95])  # Use 5th-95th percentile for bounds
         precision = count_decimal_places(df[column].iloc[0])  # Dynamically determine precision
 
-        male_population = None
-        female_population = None
-        co2_exposure_value = None
         # Adjust Life Expectancy values
         if column == "Life_Expectancy":
             random_value = (life_expectancy_female + life_expectancy_male) / 2
