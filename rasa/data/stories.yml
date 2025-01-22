@@ -69,3 +69,35 @@ stories:
   steps:
     - intent: get_correlation
     - action: action_get_correlation
+
+- story: data statistics
+  steps:
+    - intent: asks_for_stats
+    - action: utter_ask_feature
+    - intent: select_feature
+    - action: utter_ask_stat
+    - intent: select_stat
+    - action: action_calculate_column_stat
+
+- story: compare countries two
+  steps:
+    - intent: asks_country_comparison
+    - action: utter_ask_countries
+    - intent: select_countries
+    - action: utter_ask_feature
+    - intent: select_feature
+    - action: action_country_comparison
+
+- story: health trends
+  steps:
+    - intent: asks_health_trends
+    - action: utter_ask_country_and_feature
+    - intent: select_country_and_feature
+    - action: action_health_development
+
+- story: health specific year
+  steps:
+    - intent: asks_health_year
+    - action: utter_ask_feature_country_year
+    - intent: select_country_feature_year
+    - action: action_health_year
