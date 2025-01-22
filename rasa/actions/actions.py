@@ -35,7 +35,7 @@ class ActionGetAverage(Action):
         if score < 80 or not match:
             suggestions = ", ".join(columns[:5])  # Limit to the first 5 for brevity
             dispatcher.utter_message(
-                text=f"I couldn't understand the column name '{column_name}'. "
+                text=f"I couldn't understand the column name."
                      f"Please provide a valid column name. Here are some suggestions: {suggestions}")
             return [SlotSet("column_name", None)]  # Clear invalid column_name slot
 
@@ -66,42 +66,117 @@ class ActionCompareCountries(Action):
         return "action_country_comparison"
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
-        column_name = tracker.get_slot("column_name")
+        try:
+            # Retrieve slots
+            column_name = tracker.get_slot("column_name")
+            countries = tracker.get_slot("GPE")
 
-        columns = data.columns.tolist()
-        match, score = process.extractOne(column_name, columns)
+            # Check if necessary slots are filled
+            if not column_name:
+                dispatcher.utter_message(text="I didn't get the column name. Please provide it.")
+                return []
+            if not countries or len(countries) < 2:
+                dispatcher.utter_message(text="I need two countries to compare. Please provide them.")
+                return []
 
-        countries = tracker.get_slot("GPE")
+            # Get the column names from the dataset
+            columns = data.columns.tolist()
+            if not columns:
+                dispatcher.utter_message(text="The dataset appears to be empty or not loaded.")
+                return []
 
-        value_1 = data[(data['Country'] == countries[0]) & (data['Year'] == 2021)][match].iloc[0]
-        value_2 = data[(data['Country'] == countries[1]) & (data['Year'] == 2021)][match].iloc[0]
+            # Find the best match for the column name
+            match, score = process.extractOne(column_name, columns)
+            if score < 70:  # Threshold for fuzzy matching
+                dispatcher.utter_message(text=f"I couldn't find a column similar to '{column_name}'. Please check the name.")
+                return [SlotSet("column_name", None)]
 
-        message = f"In 2021 the {match} of {countries[0]} was {value_1:.2f} and the {match} of {countries[1]} was {value_2:.2f}"
+            # Retrieve data for both countries
+            try:
+                value_1 = data[(data['Country'] == countries[0]) & (data['Year'] == 2021)][match].iloc[0]
+            except IndexError:
+                dispatcher.utter_message(text=f"I couldn't find data for {countries[0]} in 2021.")
+                return []
 
-        dispatcher.utter_message(text=message)
+            try:
+                value_2 = data[(data['Country'] == countries[1]) & (data['Year'] == 2021)][match].iloc[0]
+            except IndexError:
+                dispatcher.utter_message(text=f"I couldn't find data for {countries[1]} in 2021.")
+                return []
 
-        return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]
+            # Send the comparison message
+            message = (
+                f"In 2021, the {match} of {countries[0]} was {value_1:.2f} "
+                f"and the {match} of {countries[1]} was {value_2:.2f}."
+            )
+            dispatcher.utter_message(text=message)
+
+            # Return updated slots
+            return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]
+
+        except Exception as e:
+            # Handle any unexpected errors
+            dispatcher.utter_message(text=f"An error occurred: {str(e)}. Please try again.")
+            return []
 
 class ActionHealthByYear(Action):
     def name(self) -> str:
         return "action_health_year"
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
-        column_name = tracker.get_slot("column_name")
-        year = int(tracker.get_slot("DATE"))
+        try:
+            # Retrieve slots
+            column_name = tracker.get_slot("column_name")
+            year_slot = tracker.get_slot("DATE")
+            countries = tracker.get_slot("GPE")
 
-        columns = data.columns.tolist()
-        match, score = process.extractOne(column_name, columns) # match = column
+            if not column_name or not year_slot or not countries:
+                raise ValueError("Missing required slots: column_name, DATE, or GPE.")
 
-        countries = tracker.get_slot("GPE")
+            # Validate year
+            try:
+                year = int(year_slot)
+            except ValueError:
+                raise ValueError(f"Invalid year provided: {year_slot}")
 
-        value = data[(data['Country'] == countries[0]) & (data['Year'] == year)][match].iloc[0]
+            # Validate countries list
+            if not isinstance(countries, list) or len(countries) == 0:
+                raise ValueError("GPE slot must be a non-empty list of country names.")
 
-        message = f"The value for {match} in {countries[0]} in {year} was {value:.2f}"
+            # Match column name
+            columns = data.columns.tolist()
+            match, score = process.extractOne(column_name, columns)
 
-        dispatcher.utter_message(text=message)
+            if not match:
+                raise ValueError(f"No matching column found for: {column_name}")
 
-        return [SlotSet("column_name", column_name), SlotSet("GPE", countries), "DATE", year]
+            # Fetch value
+            try:
+                value = data[(data['Country'] == countries[0]) & (data['Year'] == year)][match].iloc[0]
+            except (KeyError, IndexError):
+                raise ValueError(f"Data not found for {countries[0]} in {year} for column {match}.")
+
+            # Prepare and send message
+            message = f"The value for {match} in {countries[0]} in {year} was {value:.2f}"
+            dispatcher.utter_message(text=message)
+
+            return [
+                SlotSet("column_name", column_name),
+                SlotSet("GPE", countries),
+                SlotSet("DATE", year)
+            ]
+
+        except ValueError as e:
+            dispatcher.utter_message(text=str(e))
+        except Exception as e:
+            dispatcher.utter_message(text=f"An unexpected error occurred: {str(e)}")
+
+        # Clear slots if something goes wrong
+        return [
+            SlotSet("column_name", None),
+            SlotSet("GPE", None),
+            SlotSet("DATE", None)
+        ]
 
 
 class ActionHealthDevelopment(Action):
