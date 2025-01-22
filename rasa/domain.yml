@@ -12,9 +12,17 @@ intents:
   - finance
   - column_stat
   - compare_countries
-  - health_by_year
   - health_development
   - get_correlation
+  - asks_for_stats
+  - select_stat
+  - asks_country_comparison
+  - select_countries
+  - select_feature
+  - asks_health_trends
+  - select_country_and_feature
+  - select_country_feature_year
+  - asks_health_year
 
 responses:
   utter_greet:
@@ -41,6 +49,22 @@ responses:
 
   utter_advice:
     - text: "Here is some financial advice"
+
+  utter_ask_feature:
+    - text: "Great! Which health indicator do you want to learn about? E.g. Fertility rate, immunization rate, air pollution etc."
+
+  utter_ask_stat:
+    - text: "I can provide you with specific values like the minimum, the maximum and the mean. Which one are you interested in?"
+
+  utter_ask_countries:
+    - text: "Certainly. Which countries would you like to compare?"
+
+  utter_ask_country_and_feature:
+    - text: "Let's do that. I have access to global health data from 2012 to 2021. Which health indicator would you like to learn about and for which country?"
+
+  utter_ask_feature_country_year:
+    - text: "Please provide a health indicator, a country and a specific year between 2012 and 2021 which you want to learn about."
+
 
 
 actions:

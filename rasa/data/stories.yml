@@ -57,7 +57,7 @@ stories:
 
 - story: health by year
   steps:
-    - intent: health_by_year
+    - intent: select_country_feature_year
     - action: action_health_year
 
 - story: health development

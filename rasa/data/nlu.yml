@@ -152,7 +152,7 @@ nlu:
     - What is the [tuberculosis](column_name) in South Korea compared to the Philippines?
     - Can you show the difference in [immunization rate](column_name) between the USA and Canada?
 
-- intent: health_by_year
+- intent: select_country_feature_year
   examples: |
     - What is the trend for [unemployment rate](column_name) in Germany in 2014?
     - What was the [fertility rate](column_name) in Italy in 2015?
@@ -215,6 +215,95 @@ nlu:
     - Can you provide details connection between [urban population](column_name) and life expectancy?
     - Explain how [sanitary expense](column_name) links to life expectancy
     - I want to learn about [safe water access](column_name) and life expectancy
+    
+
+- intent: asks_for_stats
+  examples: |
+    - Provide insights into global health data such as the average, minimum or maximum
+    - Global health data
+    - The first one
+    - Global insights
+
+- intent: select_stat
+  examples: |
+    - I want to know the [min](value_action)
+    - What is the [minimum](value_action)?
+    - I am interested in the [mean](value_action)
+    - I want the [max](value_action)
+    - Tell me the [maximum](value_action)
+    - I am interested in the [average](value_action)
+    
+
+- intent: asks_country_comparison
+  examples: |
+    - I want to compare countries
+    - Compare countries
+    - Compare health factors of different countries
+    - Different countries
+    - Country comparison
+    - Countries
+    - The second one
+
+- intent: select_countries
+  examples: |
+    - Italy and Germany
+    - Japan and Indonesia
+    - Ghana and Albania
+    - Tell me about Brazil and Afghanistan
+    - What about Spain and France?
+    - Health factors for Belgium and Armenia
+    - Compare Australia and Russia
+    - Comparison of Finland and Sweden
+    - Austria and Burundi comparison
+
+- intent: select_feature
+  examples: |
+    - [fertility rate](column_name)
+    - [unemployment rate](column_name)
+    - [life expectancy](column_name)
+    - [water access](column_name)
+    - [immunization rate](column_name)
+    - [air pollution](column_name)
+    - I want to learn about [total population](column_name)
+    - Tell me about [suicide rate](column_name)
+    - How about [sanitary expense](column_name)
+    - Information on [GDP per capita](column_name)
+    - [female population](column_name)
+    - [male population](column_name)
+    - [alcohol consumption](column_name)
+    - [obesity](column_name)
+    
+
+- intent: asks_health_trends
+  examples: |
+    - I want to explore health trends
+    - Tell me about health trends
+    - The third one
+    - Health trends over time
+    - Explore health trends over a span of 10 years
+    - Health data from 2012 to 2021
+
+- intent: select_country_and_feature
+  examples: |
+    - What is the [fertility rate](column_name) in Italy?
+    - The [unemployment rate](column_name) for Burundi
+    - [air pollution](column_name) in Russia
+    - [total population](column_name) in India
+    - [water access](column_name) Denmark
+    - What is the [obesity](column_name) in the United States
+    - Tell me the [immunization rate](column_name) in Angola
+    - [urban population](column_name) in Botswana
+    - [life expectancy](column_name) of China
+    - [GDP per capita](column_name) for Bangladesh
+    - [underweight rate](column_name) for Croatia
+    
+
+- intent: asks_health_year
+  examples: |
+    - I want to learn about a specific year
+    - I want to learn about a specific health year
+    - Year specific data
+    - Health information for a specific country for a specific year
 
 - synonym: mean
   examples: |
