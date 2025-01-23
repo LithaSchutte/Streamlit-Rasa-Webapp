@@ -11,3 +11,8 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+#- rule: Compare Countries everytime a user provides all the information
+#  steps:
+#    - intent: compare_countries
+#    - action: action_country_comparison
