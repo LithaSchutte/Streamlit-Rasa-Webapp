@@ -2,6 +2,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import pandas as pd
+import numpy as np
 from fuzzywuzzy import process
 import json
 
@@ -90,6 +91,7 @@ class ActionCompareCountries(Action):
             if score < 70:  # Threshold for fuzzy matching
                 dispatcher.utter_message(text=f"I couldn't find a column similar to '{column_name}'. Please check the name.")
                 return [SlotSet("column_name", None)]
+
 
             # Retrieve data for both countries
             try:
