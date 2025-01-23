@@ -20,6 +20,20 @@ st.write("This app focuses on global health development by leveraging regression
          "decision-making in global health initiatives, offering valuable predictions that can guide policymakers and "
          "researchers in improving public health outcomes worldwide.")
 
+images = [
+        "images/imageB.png",
+        "images/imageD.png",
+        "images/imageC.png",
+        "images/imageF.png"
+    ]
+
+cols = st.columns(4)
+
+for i, img in enumerate(images):
+    with cols[i % 4]:
+        st.image(img, use_container_width=True)
+
+
 unique_countries = original_data['Country'].unique()
 
 fig = px.choropleth(locations=unique_countries,
@@ -31,7 +45,7 @@ fig.update_layout(coloraxis_showscale=False)
 
 st.plotly_chart(fig)
 
-st.write("## Main App Features")
+st.write("# Main App Features")
 st.write("""
 - Get insights into data statistics
 - Explore data visualisations with charts and graphs
@@ -93,3 +107,4 @@ if not os.path.isfile('data/clean_data.csv'):
     progress_bar.progress(100)  # Final progress bar update
     time.sleep(1)  # Simulate final processing time
     st.write("Data generation and cleaning complete!")
+

@@ -38,7 +38,7 @@ Rasa version: 3.6.20\
 Spacy: pip install -U spacy\
        python -m spacy download en_core_web_md\
 Spacy is a requirement for the rasa bot, it is a tokenizer and featurizer that is pretrained to recognise certain entity\
-types such as country names or dates. The English language pack for spacy is also required, see above\
+types such as country names or dates. The English language pack for spacy is also required, see above.
 
 Requirements: pip install -r requirements.txt
 
