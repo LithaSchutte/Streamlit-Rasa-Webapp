@@ -247,6 +247,10 @@ nlu:
 - intent: select_countries
   examples: |
     - Italy and Germany
+    - [GPE] and [GPE]
+    - (GPE) and (GPE)
+    - Japan and Italy
+    - Angola and Sudan
     - Japan and Indonesia
     - Ghana and Albania
     - Tell me about Brazil and Afghanistan

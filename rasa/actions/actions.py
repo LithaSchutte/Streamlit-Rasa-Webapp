@@ -93,20 +93,29 @@ class ActionCompareCountries(Action):
 
             # Retrieve data for both countries
             try:
+                # if data[(data['Year'] == 2021)][match].iloc[0] == None:
                 value_1 = data[(data['Country'] == countries[0]) & (data['Year'] == 2021)][match].iloc[0]
+                year = 2021
+                if value_1 is None:
+                    value_1 = data[(data['Country'] == countries[0]) & (data['Year'] == 2020)][match].iloc[0]
+                    year = 2020
             except IndexError:
                 dispatcher.utter_message(text=f"I couldn't find data for {countries[0]} in 2021.")
                 return []
 
             try:
                 value_2 = data[(data['Country'] == countries[1]) & (data['Year'] == 2021)][match].iloc[0]
+                year = 2021
+                if value_2 is None:
+                    value_2 = data[(data['Country'] == countries[1]) & (data['Year'] == 2021)][match].iloc[0]
+                    year = 2020
             except IndexError:
-                dispatcher.utter_message(text=f"I couldn't find data for {countries[1]} in 2021.")
+                dispatcher.utter_message(text=f"I couldn't find data for {countries[1]} in {year}.")
                 return []
 
             # Send the comparison message
             message = (
-                f"In 2021, the {match} of {countries[0]} was {value_1:.2f} "
+                f"In {year}, the {match} of {countries[0]} was {value_1:.2f} "
                 f"and the {match} of {countries[1]} was {value_2:.2f}."
             )
             dispatcher.utter_message(text=message)
