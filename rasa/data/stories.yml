@@ -29,15 +29,6 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: advice path
-  steps:
-    - intent: greet
-    - action: utter_greet
-    - intent: advice
-    - action: utter_ask_information
-    - intent: finance
-    - action: utter_advice
-
 - story: column mean
   steps:
     - intent: greet
@@ -101,3 +92,26 @@ stories:
     - action: utter_ask_feature_country_year
     - intent: select_country_feature_year
     - action: action_health_year
+
+- story: life expectancy predictions
+  steps:
+    - intent: asks_prediction
+    - action: utter_ask_if_want_to_learn
+    - checkpoint: explain_or_not
+
+- story: explain predictions
+  steps:
+    - checkpoint: explain_or_not
+    - intent: affirm
+    - action: utter_explain_predictions
+
+- story: user wants something else
+  steps:
+    - checkpoint: explain_or_not
+    - intent: deny
+    - action: utter_offer_something_else
+
+- story: user wants to learn about the app
+  steps:
+    - intent: asks_how_to_use_app
+    - action: utter_explain_app

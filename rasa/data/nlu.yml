@@ -38,6 +38,16 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - I am interested
+    - I want that
+    - si
+    - sure
+    - why not
+    - let's do that
+    - certainly
+    - ok
+    - okay
+    
 
 - intent: deny
   examples: |
@@ -48,6 +58,11 @@ nlu:
     - don't like that
     - no way
     - not really
+    - no grazie
+    - nah
+    - I don't want that
+    - I am not interested
+    - I want something else
 
 - intent: mood_great
   examples: |
@@ -308,6 +323,37 @@ nlu:
     - I want to learn about a specific health year
     - Year specific data
     - Health information for a specific country for a specific year
+
+- intent: asks_prediction
+  examples: |
+    - Can you predict future data trends?
+    - What is the predicted life expectancy for 2050?
+    - Can you forecast the life expectancy in Germany?
+    - How can I use the model to make a prediction?
+    - Please provide predictions for fertility rates.
+    - Can you estimate future water access percentages?
+    - Predict the obesity rate for the next decade.
+    - Can you show a projection for urban population growth?
+    - How do I predict infant mortality rates?
+    - What predictions can you make about population trends?
+    - Generate predictions for CO2 exposure in the future.
+    - What is the future unemployment rate likely to be?
+    - Can you calculate predictions for GDP per capita?
+    - Make a forecast for hospital bed availability.
+    - Provide future values for life expectancy.
+
+- intent: asks_how_to_use_app
+  examples: |
+    - How does this app work?
+    - What can I do with this app?
+    - Where can I make predictions?
+    - Where can I see the data
+    - What is the purpose of this app
+    - Explain the app
+    - What is the app
+    - Please inform me on how the app functions
+    - Give me information about the app
+
 
 - synonym: mean
   examples: |

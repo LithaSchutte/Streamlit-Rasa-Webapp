@@ -6,14 +6,7 @@ import plotly.express as px
 from AppClass import DataLoader
 import time
 
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-body {
-    font-family: 'Play Fair Display', sans-serif;
-}
-</style>
-""", unsafe_allow_html=True)
+st.set_page_config(layout="centered")
 
 st.title("🌍 Global Health & Development")
 data_file = 'data/global_health.csv'

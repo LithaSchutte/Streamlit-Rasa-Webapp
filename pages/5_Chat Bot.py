@@ -4,7 +4,11 @@ import streamlit as st
 # Define Rasa server URL
 RASA_SERVER_URL = "http://localhost:5005/webhooks/rest/webhook"
 
+st.set_page_config(layout="centered")
+
 st.title("Rasa Test")
+
+
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -13,7 +17,8 @@ if "messages" not in st.session_state:
          "content": "Hello and welcome to the app.\n"
                     "I can assist you in the following ways:\n"
                     "- Provide insights into global health data such as the average, minimum or maximum\n"
-                    "- Compare health factors of different countries over a span of 10 years\n"
+                    "- Compare health indicators of different countries.\n"
+                    "- Explore health trends over time. \n"
 	                "- Explore the correlations between different health indicators\n"
 	                "\nPlease tell me which of these tasks I can assist you with. Or did you have something else in mind?"}
     ]

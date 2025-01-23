@@ -8,8 +8,6 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - advice
-  - finance
   - column_stat
   - compare_countries
   - health_development
@@ -23,6 +21,8 @@ intents:
   - select_country_and_feature
   - select_country_feature_year
   - asks_health_year
+  - asks_prediction
+  - asks_how_to_use_app
 
 responses:
   utter_greet:
@@ -44,12 +44,6 @@ responses:
   utter_iamabot:
     - text: "I am a bot, powered by Rasa."
 
-  utter_ask_information:
-    - text: "What advice do you need? I would be happy to help you."
-
-  utter_advice:
-    - text: "Here is some financial advice"
-
   utter_ask_feature:
     - text: "Great! Which health indicator do you want to learn about? E.g. Fertility rate, immunization rate, air pollution etc."
 
@@ -65,7 +59,23 @@ responses:
   utter_ask_feature_country_year:
     - text: "Please provide a health indicator, a country and a specific year between 2012 and 2021 which you want to learn about."
 
+  utter_ask_if_want_to_learn:
+    - text: "Unfortunately I am not able to make predictions, but I can explain how you could use this app to make your own predictions. Are you interested in this or do you want to learn something else?"
 
+  utter_explain_predictions:
+    - text: "To better understand the predictions, it's recommended that you visit the data page first in order to get an overview. You can navigate to the Data page by using the menu on the left. 
+	After this, you can visit the Regression Models page, here you can select a model for regression, the options available to you are Linear Regression, Lasso Regression, Ridge Regression and Random Forest Regression.
+	Hint: Choose Random Forest for the best model. Then you can change some of the feature variables in order to make a prediction based on your custom values."
+
+  utter_offer_something_else:
+    - text: "Okay, no problem, what else do you want to learn today? We can compare countries or learn about health indicators"
+
+  utter_explain_app:
+    - text: "This app focuses on global health development by leveraging regression models to predict life expectancy across different countries. By analyzing various socio-economic, environmental, 
+    and healthcare-related factors, the app provides insights into how these variables influence life expectancy. The app aims to support data-driven decision-making in global health initiatives, 
+    offering valuable predictions that can guide policymakers and researchers in improving public health outcomes worldwide.
+    On the first page you can get a brief overview and then you can move on to learn about the data, you can also learn about how the data was processed. In addition to that you can also change
+    some feature variables in order to predict life expectancy. I am also here to help you if you have any questions, but I am a new bot and I cannot answer everything."
 
 actions:
   - action_calculate_column_stat
