@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 from generate_fake_data import generate_fake_data, add_fake_data_to_real_data
-from normalization import drop_columns, fill_mice, fill_knn, fill_mean, normalize, handle_outliers
+from data_processing import drop_columns, fill_mice, fill_knn, fill_mean, normalize, handle_outliers
 from AppClass import DataLoader  # Import the DataLoader class
 
 st.set_page_config(layout="wide")

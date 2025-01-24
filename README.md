@@ -17,6 +17,7 @@ initiatives, offering valuable predictions that can guide policymakers and resea
 worldwide. The app also contains a chatbot that is aimed at making information more accessible to user and to improve the\
 user experience.
 
+Images used in the app were generated using Midjourney.
 
 ### Key Features
 - Get insights into data statistics
