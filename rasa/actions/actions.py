@@ -68,11 +68,11 @@ class ActionCompareCountries(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker, domain) -> list:
         try:
-            # Retrieve slots
+            # Retrieve the necessary slots
             column_name = tracker.get_slot("column_name")
             countries = tracker.get_slot("GPE")
 
-            # Check if necessary slots are filled
+            # Validate slots
             if not column_name:
                 dispatcher.utter_message(text="I didn't get the column name. Please provide it.")
                 return []
@@ -80,54 +80,38 @@ class ActionCompareCountries(Action):
                 dispatcher.utter_message(text="I need two countries to compare. Please provide them.")
                 return []
 
-            # Get the column names from the dataset
+            # Check for columns in the dataset
             columns = data.columns.tolist()
             if not columns:
                 dispatcher.utter_message(text="The dataset appears to be empty or not loaded.")
                 return []
 
-            # Find the best match for the column name
+            # Match the column name to the dataset columns
             match, score = process.extractOne(column_name, columns)
-            if score < 70:  # Threshold for fuzzy matching
+            if score < 70:  # Fuzzy matching threshold
                 dispatcher.utter_message(text=f"I couldn't find a column similar to '{column_name}'. Please check the name.")
                 return [SlotSet("column_name", None)]
 
-            matched_countries = []
+            # Match both countries
+            matched_countries = self.match_countries(countries)
 
-            for country in countries:
-                column_name = country
-                columns = data["Country"].unique()
-                match, score = process.extract(column_name, columns)
-                if score > 70:
-                    matched_countries.append(match)
-
-            # Retrieve data for both countries
-            try:
-                # if data[(data['Year'] == 2021)][match].iloc[0] == None:
-                value_1 = data[(data['Country'] == matched_countries[0]) & (data['Year'] == 2021)][match].iloc[0]
-                year = 2021
-                if np.isnan(value_1):
-                    value_1 = data[(data['Country'] == matched_countries[0]) & (data['Year'] == 2020)][match].iloc[0]
-                    year = 2020
-            except IndexError:
-                dispatcher.utter_message(text=f"I couldn't find data for {matched_countries[0]} in 2021.")
+            # Check if both countries were matched successfully
+            if len(matched_countries) < 2:
+                dispatcher.utter_message(text="One or both of the countries couldn't be matched. Please check the names.")
                 return []
 
-            try:
-                value_2 = data[(data['Country'] == matched_countries[1]) & (data['Year'] == 2021)][match].iloc[0]
-                year = 2021
-                if np.isnan(value_2):
-                    value_2 = data[(data['Country'] == matched_countries[1]) & (data['Year'] == 2020)][match].iloc[0]
-                    year = 2020
-            except IndexError:
-                dispatcher.utter_message(text=f"I couldn't find data for {matched_countries[1]} in {year}.")
+            # Retrieve and compare data for both countries
+            value_1, year_1 = self.get_country_data(matched_countries[0], match)
+            value_2, year_2 = self.get_country_data(matched_countries[1], match)
+
+            if value_1 is None or value_2 is None:
+                dispatcher.utter_message(text="Could not retrieve data for one or both countries. Please try again.")
                 return []
 
-            match = match.replace("_", " ")
             # Send the comparison message
             message = (
-                f"In {year}, the {match} of {matched_countries[0]} was {value_1:.2f} "
-                f"and the {match} of {matched_countries[1]} was {value_2:.2f}."
+                f"In {year_1}, the {match.replace('_', ' ')} of {matched_countries[0]} was {value_1:.2f} "
+                f"and the {match.replace('_', ' ')} of {matched_countries[1]} was {value_2:.2f}."
             )
             dispatcher.utter_message(text=message)
 
@@ -135,9 +119,31 @@ class ActionCompareCountries(Action):
             return [SlotSet("column_name", column_name), SlotSet("GPE", countries)]
 
         except Exception as e:
-            # Handle any unexpected errors
             dispatcher.utter_message(text=f"An error occurred: {str(e)}. Please try again.")
             return []
+
+    def match_countries(self, countries: list) -> list:
+        matched_countries = []
+        for country in countries:
+            columns = data["Country"].unique()
+            match, score = process.extractOne(country, columns)
+            if score > 70:
+                matched_countries.append(match)
+        return matched_countries
+
+    def get_country_data(self, country: str, column: str):
+        try:
+            # Retrieve data for the country for the given column
+            value = data[(data['Country'] == country) & (data['Year'] == 2021)][column].iloc[0]
+            year = 2021
+            if np.isnan(value):
+                # Fallback to the previous year if 2021 data is missing
+                value = data[(data['Country'] == country) & (data['Year'] == 2020)][column].iloc[0]
+                year = 2020
+            return value, year
+        except (IndexError, KeyError, ValueError):
+            return None, None
+
 
 class ActionHealthByYear(Action):
     def name(self) -> str:
@@ -167,22 +173,25 @@ class ActionHealthByYear(Action):
             columns = data.columns.tolist()
             match, score = process.extractOne(column_name, columns)
 
+            data_countries = data["Country"].unique()
+            match_country, score_country = process.extractOne(countries[0], data_countries)
+
             if not match:
                 raise ValueError(f"No matching column found for: {column_name}")
 
             # Fetch value
             try:
-                value = data[(data['Country'] == countries[0]) & (data['Year'] == year)][match].iloc[0]
+                value = data[(data['Country'] == match_country) & (data['Year'] == year)][match].iloc[0]
             except (KeyError, IndexError):
-                raise ValueError(f"Data not found for {countries[0]} in {year} for column {match}.")
+                raise ValueError(f"Data not found for {match_country} in {year} for column {match}.")
 
             # Prepare and send message
-            message = f"The value for {match} in {countries[0]} in {year} was {value:.2f}"
+            message = f"The value for {match} in {match_country} in {year} was {value:.2f}"
             dispatcher.utter_message(text=message)
 
             return [
                 SlotSet("column_name", column_name),
-                SlotSet("GPE", countries),
+                SlotSet("GPE", countries[0]),
                 SlotSet("DATE", year)
             ]
 
@@ -208,7 +217,8 @@ class ActionHealthDevelopment(Action):
         column_name = tracker.get_slot("column_name")
         countries = tracker.get_slot("GPE")
 
-        country = countries[0]
+        data_countries = data["Country"].unique()
+        country, score = process.extractOne(countries[0], data_countries)
         columns = data.columns.tolist()
 
         match, score = process.extractOne(column_name, columns)
@@ -241,12 +251,14 @@ class ActionGetCorrelation(Action):
 
         # Extract the topic entity
         column_name = tracker.get_slot('column_name')
+        columns = data.columns.tolist()
+        matched, score = process.extractOne(column_name, columns)
 
-        if column_name and column_name in responses:
+        if matched and matched in responses:
             # Send the corresponding response
-            dispatcher.utter_message(text=responses[column_name])
+            dispatcher.utter_message(text=responses[matched])
         else:
             dispatcher.utter_message(text="I don't have information on that topic.")
 
-        return [SlotSet("column_name", column_name)]
+        return [SlotSet("column_name", matched)]
 
