@@ -1,14 +1,14 @@
 import requests
 import streamlit as st
+from gtts import gTTS
+import os
+import tempfile
+import pygame
 
 # Define Rasa server URL
 RASA_SERVER_URL = "http://localhost:5005/webhooks/rest/webhook"
 
-st.set_page_config(layout="centered")
-
-st.title("Rasa Test")
-
-
+st.title("Rasa Test with Speech")
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -17,16 +17,10 @@ if "messages" not in st.session_state:
          "content": "Hello and welcome to the app.\n"
                     "I can assist you in the following ways:\n"
                     "- Provide insights into global health data such as the average, minimum or maximum\n"
-                    "- Compare health indicators of different countries.\n"
-                    "- Explore health trends over time. \n"
-	                "- Explore the correlations between different health indicators\n"
-	                "\nPlease tell me which of these tasks I can assist you with. Or did you have something else in mind?"}
+                    "- Compare health factors of different countries over a span of 10 years\n"
+                    "- Explore the correlations between different health indicators\n"
+                    "\nPlease tell me which of these tasks I can assist you with. Or did you have something else in mind?"}
     ]
-
-# Display previous chat messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
 
 # Function to send a message to Rasa
 def send_message_to_rasa(message):
@@ -34,6 +28,40 @@ def send_message_to_rasa(message):
     response = requests.post(RASA_SERVER_URL, json=payload)
     response.raise_for_status()
     return response.json()
+
+# Function to convert text to speech and play it
+def speak(text):
+    # Convert text to speech
+    tts = gTTS(text)
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
+        tts.save(tmp_file.name)
+        audio_path = tmp_file.name
+
+    try:
+        # Initialize pygame mixer
+        pygame.mixer.init()
+        pygame.mixer.music.load(audio_path)
+        pygame.mixer.music.play()
+
+        # Wait for the audio to finish playing
+        while pygame.mixer.music.get_busy():
+            continue
+
+    finally:
+        # Stop and quit the mixer to release the file
+        pygame.mixer.music.stop()
+        pygame.mixer.quit()
+
+        # Ensure the file is properly removed after use
+        try:
+            os.remove(audio_path)
+        except PermissionError:
+            print(f"Could not delete {audio_path}. It may still be in use.")
+
+# Display previous chat messages
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
 # User input
 if user_input := st.chat_input("Type your message here..."):
@@ -52,3 +80,7 @@ if user_input := st.chat_input("Type your message here..."):
     st.session_state.messages.append({"role": "assistant", "content": response_text})
     with st.chat_message("assistant"):
         st.markdown(response_text)
+
+    # Make the assistant speak the response
+    if response_text:
+        speak(response_text)
