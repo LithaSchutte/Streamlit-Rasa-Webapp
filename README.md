@@ -34,8 +34,8 @@ This project is built and developed with python, streamlit and rasa.
 # Installation
 
 Python 3.10.0: [Download](https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe)\
-Create python 3.10.0 virtual environment
-Run "python.exe -m pip install --upgrade pip"
+Create python 3.10.0 virtual environment\
+Run "python.exe -m pip install --upgrade pip"\
 Run "pip install -r requirements.txt"
 
 
@@ -87,15 +87,15 @@ making predictions.
 
 # Implementation of the requests
 
-- A multipage streamlit web app is implemented using the standard streamlit file structure. All pages are in the Pages folder.
+- A multipage streamlit web app is implemented using the standard streamlit file structure. All pages are in the pages folder.
 - A requirements.txt files contains all the necessary dependencies
 - Data is imported from a csv file that is stored in the data folder. In the AppClass file, there is also a class for loading data in order to eliminate redundant code
 - Data is analyzed and visualized in the app with pandas, seaborn and matplotlib. A radio box allows users to select which data they want to analyze, it differentiates between original data, processed date, and data with added synthetic data
-- Outliers are handled with the Z-score. This formula calculates how many standard deviations a data point is away from the mean distribution and capps it accordingly.
+- Outliers are handled with the Z-score. This formula calculates how many standard deviations a data point is away from the mean distribution and caps it accordingly.
 - Data is transformed so that it can be used in the app. Irrelevant columns are dropped, as are columns that had too many missing values. Missing values can be filled by different algorithms, depending on radio button selection.
 - 50% of Fake data is generated in the app. Functions for generating fake data are imported from the generate_fake_data.py file to be used elsewhere in the app. For generating fake data the random module and scipy.stats are used. Logical constraints are also added to certain features to make sure that the data is realistic
-- 6 Input widgets are created in order to alter features for making a prediction. 4 are slided and two are spin boxes. This is found on the regression models page. The inputs are then parsed to the model for make a prediction.
+- 6 Input widgets are created in order to alter features for making a prediction. 4 are sliders and 2 are spin boxes. This is found on the regression models page. The inputs are then parsed to the model for making a prediction.
 - 4 different Scikit-learn algorithms are implemented in the app, user can make a radio button selection to choose a model. An object-oriented implementation of regression is developed in the RegressionModel class in the AppClass.py in order to streamline the use of different modules and their attributes.
-- A rasa chatbot is implemented by customising the data .yml files. Fine-tuning is achieved through customising the config file. Additional and dynamic functionality is added to the rasa bot through custom actions. The actions allow the bot to answer specific questions about the data and the original data file is queried for this purpose. Necessary error-handling is also implemented to ensure smooth conversation flow.
+- A rasa chatbot is implemented by customising the .yml data files. Fine-tuning is achieved through customising the config file. Additional and dynamic functionality is added to the rasa bot through custom actions. The actions allow the bot to answer specific questions about the data and the original data file is queried for this purpose. Necessary error-handling is also implemented to ensure smooth conversation flow.
 # Work done
 
