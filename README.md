@@ -1,4 +1,4 @@
- Schutte, Litha, 22300472
+Schutte, Litha, 22300472
 
 Zika, Marko, 22111084
 
@@ -48,33 +48,27 @@ Fake data: [Wiki](https://mygit.th-deg.de/mzika/global-health-and-development/-/
 
 # Basic Usage
 
-1. Open the first terminal
+1. Open a first terminal window
    1. Switch to the rasa folder from the root directory with "cd rasa"
    2. Run the command "rasa train"
    3. Once the training is finished, execute "rasa run"
 
 
-2. Open the second terminal
+2. Open a second terminal window
    1. Switch to the rasa folder from the root directory with "cd rasa"
    2. Run the command "rasa run actions"
 
-
-3. Open the third terminal
+3. Open a third terminal window
    1. In the root directory, run "streamlit run App.py"
 
-
-4. Streamlit run will automatically open in the browser, if not, clicking on Local URL in the terminal after running the command
+4. Streamlit run will automatically open in the browser, if not, clicking on Local URL in the terminal output after running the command
 in the third terminal will start the app
 
-
-5. When the app opens for the first time, all the necessary files for the app will get generated (might take a few seconds, see progress bar in the App page)
-
+5. When the app opens for the first time, all the necessary files will get generated (this might take a few seconds, see progress bar in the App page)
 
 6. After files are initially generated, they will not have to be regenerated during each rerun.
 
-
 7. Multiple pages are accessible through the sidebar navigation.
-
 
 8. The last page is the chatbot, which will only work if the commands of the first 2 terminals are executed properly.
   Messages are sent through the streamlit chat interface.
@@ -93,12 +87,15 @@ making predictions.
 
 # Implementation of the requests
 
-- Multipage webapp -> Folder pages added in the root directory with python files inside, each file represents a page
-- Requirements -> Requirements.txt is added with all the necessary dependencies, so that everything that is necessary can be downloaded in one command
-- Data is analyzed and visualized in the app -> Data page and Data Processing pages (second and third pages)
-- Data is transformed so that it can be used in the app -> Data Processing page
-- Input widgets -> 4 sliders and 2 percent stuff in the regression models page
-- Scikit-learn algorithms -> multiple regression methods
-
+- A multipage streamlit web app is implemented using the standard streamlit file structure. All pages are in the Pages folder.
+- A requirements.txt files contains all the necessary dependencies
+- Data is imported from a csv file that is stored in the data folder. In the AppClass file, there is also a class for loading data in order to eliminate redundant code
+- Data is analyzed and visualized in the app with pandas, seaborn and matplotlib. A radio box allows users to select which data they want to analyze, it differentiates between original data, processed date, and data with added synthetic data
+- Outliers are handled with the Z-score. This formula calculates how many standard deviations a data point is away from the mean distribution and capps it accordingly.
+- Data is transformed so that it can be used in the app. Irrelevant columns are dropped, as are columns that had too many missing values. Missing values can be filled by different algorithms, depending on radio button selection.
+- 50% of Fake data is generated in the app. Functions for generating fake data are imported from the generate_fake_data.py file to be used elsewhere in the app. For generating fake data the random module and scipy.stats are used. Logical constraints are also added to certain features to make sure that the data is realistic
+- 6 Input widgets are created in order to alter features for making a prediction. 4 are slided and two are spin boxes. This is found on the regression models page. The inputs are then parsed to the model for make a prediction.
+- 4 different Scikit-learn algorithms are implemented in the app, user can make a radio button selection to choose a model. An object-oriented implementation of regression is developed in the RegressionModel class in the AppClass.py in order to streamline the use of different modules and their attributes.
+- A rasa chatbot is implemented by customising the data .yml files. Fine-tuning is achieved through customising the config file. Additional and dynamic functionality is added to the rasa bot through custom actions. The actions allow the bot to answer specific questions about the data and the original data file is queried for this purpose. Necessary error-handling is also implemented to ensure smooth conversation flow.
 # Work done
 
