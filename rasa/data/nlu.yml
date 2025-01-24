@@ -106,15 +106,6 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
-- intent: advice
-  examples: |
-    - I need advice
-    - Can you advice me?
-
-- intent: finance
-  examples: |
-    - I need financial advice
-    - I need help with finances
 
 - intent: column_stat
   examples: |
