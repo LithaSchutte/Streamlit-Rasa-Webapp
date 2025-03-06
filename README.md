@@ -10,12 +10,7 @@ https://mygit.th-deg.de/mzika/global-health-and-development/-/wikis/pages
 
 # Project Description
 
-This app focuses on global health development by leveraging regression models to predict life expectancy across different\
-countries. By analyzing various socio-economic, environmental, and healthcare-related factors, the app provides insights\
-into how these variables influence life expectancy. The app aims to support data-driven decision-making in global health\
-initiatives, offering valuable predictions that can guide policymakers and researchers in improving public health outcomes\
-worldwide. The app also contains a chatbot that is aimed at making information more accessible to user and to improve the\
-user experience.
+This app focuses on global health development by leveraging regression models to predict life expectancy across different countries. By analyzing various socio-economic, environmental, and healthcare-related factors, the app provides insights into how these variables influence life expectancy. The app aims to support data-driven decision-making in global health initiatives, offering valuable predictions that can guide policymakers and researchers in improving public health outcomes worldwide. The app also contains a chatbot that is aimed at making information more accessible to user and to improve the user experience.
 
 Images used in the app were generated using Midjourney.
 
